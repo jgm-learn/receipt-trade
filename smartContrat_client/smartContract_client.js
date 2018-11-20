@@ -31,8 +31,6 @@ var account = web3.eth.accounts[0];	//获取管理员以太坊地址
 
 async  function start(){
 
-	//console.log(account);
-
 	await instance.insertUserReceipt(userAddr, 1, 100, {from: account, gas: 9000000});	//为用户添加仓单
 	await instance.insertUserReceipt(userAddr, 2, 10, {from: account, gas: 9000000});	//为用户添加仓单
 
@@ -86,6 +84,18 @@ async function InsertReceipt(call, callback) {
 	await instance.insertUserReceipt(userAddr, ReceiptId, TotalQty, {from: account, gas: 9000000});	//为用户添加仓单
 
 	callback(null, {Rst: 1});
+
+	var length = await instance.getReceiptArrayLength(userAddr); //获取用户仓单的种类数量
+	console.log(length.c[0])
+
+	var myArray = new Array();
+	for(var i = 0; i < length.c[0]; i++){
+		rst = await instance.getReceipt(userAddr, i);
+		myArray[i] = new Receipt(rst[0].c[0], rst[1].c[0], rst[2].c[0], rst[3].c[0]); 
+	}
+
+	console.log(userAddr)
+	console.log(myArray);
 }
 
 main();
