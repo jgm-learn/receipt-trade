@@ -1,0 +1,3039 @@
+{
+  "contractName": "ReceiptTrade",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "userAddr",
+          "type": "address"
+        },
+        {
+          "name": "receiptId",
+          "type": "uint256"
+        },
+        {
+          "name": "totalQty",
+          "type": "uint256"
+        }
+      ],
+      "name": "insertUserReceipt",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "userAddr",
+          "type": "address"
+        },
+        {
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getReceipt",
+      "outputs": [
+        {
+          "name": "receiptId",
+          "type": "uint256"
+        },
+        {
+          "name": "totalQty",
+          "type": "uint256"
+        },
+        {
+          "name": "remainQty",
+          "type": "uint256"
+        },
+        {
+          "name": "frozenQty",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "userAddr",
+          "type": "address"
+        }
+      ],
+      "name": "getReceiptArrayLength",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b50610474806100206000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063bae188801461005c578063cf2d3f77146100d2578063e43d826e14610129575b600080fd5b34801561006857600080fd5b506100a7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610180565b6040518085815260200184815260200183815260200182815260200194505050505060405180910390f35b3480156100de57600080fd5b50610113600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061030b565b6040518082815260200191505060405180910390f35b34801561013557600080fd5b5061017e600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291908035906020019092919080359060200190929190505050610356565b005b6000806000806000808773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020858154811015156101d157fe5b90600052602060002090600402016000015493506000808773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208581548110151561023057fe5b90600052602060002090600402016001015492506000808773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208581548110151561028f57fe5b90600052602060002090600402016002015491506000808773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020858154811015156102ee57fe5b906000526020600020906004020160030154905092959194509250565b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020805490509050919050565b61035e61041f565b60806040519081016040528084815260200183815260200160008152602001600081525090506000808573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081908060018154018082558091505090600182039060005260206000209060040201600090919290919091506000820151816000015560208201518160010155604082015181600201556060820151816003015550505050505050565b6080604051908101604052806000815260200160008152602001600081526020016000815250905600a165627a7a723058200124b2c08be82ede0c30140542bf7de4e61c537e88751869e178c80ca57feca00029",
+  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063bae188801461005c578063cf2d3f77146100d2578063e43d826e14610129575b600080fd5b34801561006857600080fd5b506100a7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610180565b6040518085815260200184815260200183815260200182815260200194505050505060405180910390f35b3480156100de57600080fd5b50610113600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061030b565b6040518082815260200191505060405180910390f35b34801561013557600080fd5b5061017e600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291908035906020019092919080359060200190929190505050610356565b005b6000806000806000808773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020858154811015156101d157fe5b90600052602060002090600402016000015493506000808773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208581548110151561023057fe5b90600052602060002090600402016001015492506000808773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208581548110151561028f57fe5b90600052602060002090600402016002015491506000808773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020858154811015156102ee57fe5b906000526020600020906004020160030154905092959194509250565b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020805490509050919050565b61035e61041f565b60806040519081016040528084815260200183815260200160008152602001600081525090506000808573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081908060018154018082558091505090600182039060005260206000209060040201600090919290919091506000820151816000015560208201518160010155604082015181600201556060820151816003015550505050505050565b6080604051908101604052806000815260200160008152602001600081526020016000815250905600a165627a7a723058200124b2c08be82ede0c30140542bf7de4e61c537e88751869e178c80ca57feca00029",
+  "sourceMap": "26:883:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;26:883:1;;;;;;;",
+  "deployedSourceMap": "26:883:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;382:364;;8:9:-1;5:2;;;30:1;27;20:12;5:2;382:364:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;789:118;;8:9:-1;5:2;;;30:1;27;20:12;5:2;789:118:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;202:177;;8:9:-1;5:2;;;30:1;27;20:12;5:2;202:177:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;382:364;460:14;476:13;491:14;507;540:11;:21;552:8;540:21;;;;;;;;;;;;;;;562:5;540:28;;;;;;;;;;;;;;;;;;;;:38;;;526:52;;594:11;:21;606:8;594:21;;;;;;;;;;;;;;;616:5;594:28;;;;;;;;;;;;;;;;;;;;:37;;;582:49;;648:11;:21;660:8;648:21;;;;;;;;;;;;;;;670:5;648:28;;;;;;;;;;;;;;;;;;;;:38;;;635:51;;703:11;:21;715:8;703:21;;;;;;;;;;;;;;;725:5;703:28;;;;;;;;;;;;;;;;;;;;:38;;;690:51;;382:364;;;;;;;:::o;789:118::-;858:4;875:11;:21;887:8;875:21;;;;;;;;;;;;;;;:28;;;;868:35;;789:118;;;:::o;202:177::-;289:16;;:::i;:::-;308:34;;;;;;;;;316:9;308:34;;;;327:8;308:34;;;;337:1;308:34;;;;340:1;308:34;;;289:53;;346:11;:21;358:8;346:21;;;;;;;;;;;;;;;373:1;346:29;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;346:29:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;202:177;;;;:::o;26:883::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.23;\n\ncontract ReceiptTrade {\n\tstruct Receipt {\n\t\tuint \treceiptId;\n\t\tuint\ttotalQty;\n\t\tuint \tremainQty;\n\t\tuint \tfrozenQty;\n\t}\n\n\tmapping(address => Receipt[]) userReceipt;\n\n\tint _a;\n\n\tfunction insertUserReceipt(address userAddr, uint receiptId, uint totalQty) public {\n\t\tReceipt memory r = Receipt(receiptId, totalQty, 0, 0);\n\t\tuserReceipt[userAddr].push(r);\n\t}\n\n\tfunction getReceipt(address userAddr, uint index) public view returns(\n\t\t\t\t\t\t\tuint receiptId, uint totalQty, uint remainQty, uint frozenQty){\n\t\treceiptId \t= \tuserReceipt[userAddr][index].receiptId;\n\t\ttotalQty \t=\tuserReceipt[userAddr][index].totalQty;\n\t\tremainQty \t=\tuserReceipt[userAddr][index].remainQty;\n\t\tfrozenQty \t=\tuserReceipt[userAddr][index].frozenQty;\n\n\t}\n\n\t//获取用户的仓单数组的长度\n\tfunction getReceiptArrayLength(address userAddr) public view returns(uint) {\n\t\treturn userReceipt[userAddr].length;\n\t}\n}\n",
+  "sourcePath": "/home/jgm/goApp/src/receipt-trade/truffle_receipt/contracts/ReceiptTrade.sol",
+  "ast": {
+    "absolutePath": "/home/jgm/goApp/src/receipt-trade/truffle_receipt/contracts/ReceiptTrade.sol",
+    "exportedSymbols": {
+      "ReceiptTrade": [
+        166
+      ]
+    },
+    "id": 167,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 58,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".23"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 166,
+        "linearizedBaseContracts": [
+          166
+        ],
+        "name": "ReceiptTrade",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "ReceiptTrade.Receipt",
+            "id": 67,
+            "members": [
+              {
+                "constant": false,
+                "id": 60,
+                "name": "receiptId",
+                "nodeType": "VariableDeclaration",
+                "scope": 67,
+                "src": "70:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 59,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "70:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 62,
+                "name": "totalQty",
+                "nodeType": "VariableDeclaration",
+                "scope": 67,
+                "src": "89:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 61,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "89:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 64,
+                "name": "remainQty",
+                "nodeType": "VariableDeclaration",
+                "scope": 67,
+                "src": "106:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 63,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "106:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 66,
+                "name": "frozenQty",
+                "nodeType": "VariableDeclaration",
+                "scope": 67,
+                "src": "125:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 65,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "125:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Receipt",
+            "nodeType": "StructDefinition",
+            "scope": 166,
+            "src": "51:93:1",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 72,
+            "name": "userReceipt",
+            "nodeType": "VariableDeclaration",
+            "scope": 166,
+            "src": "147:41:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+              "typeString": "mapping(address => struct ReceiptTrade.Receipt[])"
+            },
+            "typeName": {
+              "id": 71,
+              "keyType": {
+                "id": 68,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "155:7:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "147:29:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                "typeString": "mapping(address => struct ReceiptTrade.Receipt[])"
+              },
+              "valueType": {
+                "baseType": {
+                  "contractScope": null,
+                  "id": 69,
+                  "name": "Receipt",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 67,
+                  "src": "166:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Receipt_$67_storage_ptr",
+                    "typeString": "struct ReceiptTrade.Receipt"
+                  }
+                },
+                "id": 70,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "166:9:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_ptr",
+                  "typeString": "struct ReceiptTrade.Receipt[]"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 74,
+            "name": "_a",
+            "nodeType": "VariableDeclaration",
+            "scope": 166,
+            "src": "192:6:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_int256",
+              "typeString": "int256"
+            },
+            "typeName": {
+              "id": 73,
+              "name": "int",
+              "nodeType": "ElementaryTypeName",
+              "src": "192:3:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_int256",
+                "typeString": "int256"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 99,
+              "nodeType": "Block",
+              "src": "285:94:1",
+              "statements": [
+                {
+                  "assignments": [
+                    84
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 84,
+                      "name": "r",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 100,
+                      "src": "289:16:1",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Receipt_$67_memory_ptr",
+                        "typeString": "struct ReceiptTrade.Receipt"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 83,
+                        "name": "Receipt",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 67,
+                        "src": "289:7:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage_ptr",
+                          "typeString": "struct ReceiptTrade.Receipt"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 91,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 86,
+                        "name": "receiptId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 78,
+                        "src": "316:9:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 87,
+                        "name": "totalQty",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 80,
+                        "src": "327:8:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "30",
+                        "id": 88,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "337:1:1",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        },
+                        "value": "0"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "30",
+                        "id": 89,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "340:1:1",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        },
+                        "value": "0"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        },
+                        {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        }
+                      ],
+                      "id": 85,
+                      "name": "Receipt",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 67,
+                      "src": "308:7:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Receipt_$67_storage_ptr_$",
+                        "typeString": "type(struct ReceiptTrade.Receipt storage pointer)"
+                      }
+                    },
+                    "id": 90,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "308:34:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Receipt_$67_memory",
+                      "typeString": "struct ReceiptTrade.Receipt memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "289:53:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 96,
+                        "name": "r",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 84,
+                        "src": "373:1:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_memory_ptr",
+                          "typeString": "struct ReceiptTrade.Receipt memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Receipt_$67_memory_ptr",
+                          "typeString": "struct ReceiptTrade.Receipt memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 92,
+                          "name": "userReceipt",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 72,
+                          "src": "346:11:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                            "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                          }
+                        },
+                        "id": 94,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 93,
+                          "name": "userAddr",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 76,
+                          "src": "358:8:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "346:21:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                        }
+                      },
+                      "id": 95,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "346:26:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Receipt_$67_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct ReceiptTrade.Receipt storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 97,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "346:29:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 98,
+                  "nodeType": "ExpressionStatement",
+                  "src": "346:29:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 100,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "insertUserReceipt",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 81,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 76,
+                  "name": "userAddr",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 100,
+                  "src": "229:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 75,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "229:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 78,
+                  "name": "receiptId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 100,
+                  "src": "247:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 77,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "247:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 80,
+                  "name": "totalQty",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 100,
+                  "src": "263:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 79,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "263:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "228:49:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 82,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "285:0:1"
+            },
+            "scope": 166,
+            "src": "202:177:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 151,
+              "nodeType": "Block",
+              "src": "522:224:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 122,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 115,
+                      "name": "receiptId",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 107,
+                      "src": "526:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 116,
+                            "name": "userReceipt",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 72,
+                            "src": "540:11:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                              "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                            }
+                          },
+                          "id": 118,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 117,
+                            "name": "userAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 102,
+                            "src": "552:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "540:21:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                            "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                          }
+                        },
+                        "id": 120,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 119,
+                          "name": "index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 104,
+                          "src": "562:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "540:28:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref"
+                        }
+                      },
+                      "id": 121,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "receiptId",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 60,
+                      "src": "540:38:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "526:52:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 123,
+                  "nodeType": "ExpressionStatement",
+                  "src": "526:52:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 131,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 124,
+                      "name": "totalQty",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 109,
+                      "src": "582:8:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 125,
+                            "name": "userReceipt",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 72,
+                            "src": "594:11:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                              "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                            }
+                          },
+                          "id": 127,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 126,
+                            "name": "userAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 102,
+                            "src": "606:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "594:21:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                            "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                          }
+                        },
+                        "id": 129,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 128,
+                          "name": "index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 104,
+                          "src": "616:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "594:28:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref"
+                        }
+                      },
+                      "id": 130,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "totalQty",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 62,
+                      "src": "594:37:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "582:49:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 132,
+                  "nodeType": "ExpressionStatement",
+                  "src": "582:49:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 140,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 133,
+                      "name": "remainQty",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 111,
+                      "src": "635:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 134,
+                            "name": "userReceipt",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 72,
+                            "src": "648:11:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                              "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                            }
+                          },
+                          "id": 136,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 135,
+                            "name": "userAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 102,
+                            "src": "660:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "648:21:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                            "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                          }
+                        },
+                        "id": 138,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 137,
+                          "name": "index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 104,
+                          "src": "670:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "648:28:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref"
+                        }
+                      },
+                      "id": 139,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "remainQty",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 64,
+                      "src": "648:38:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "635:51:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 141,
+                  "nodeType": "ExpressionStatement",
+                  "src": "635:51:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 149,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 142,
+                      "name": "frozenQty",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 113,
+                      "src": "690:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 143,
+                            "name": "userReceipt",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 72,
+                            "src": "703:11:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                              "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                            }
+                          },
+                          "id": 145,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 144,
+                            "name": "userAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 102,
+                            "src": "715:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "703:21:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                            "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                          }
+                        },
+                        "id": 147,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 146,
+                          "name": "index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 104,
+                          "src": "725:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "703:28:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref"
+                        }
+                      },
+                      "id": 148,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "frozenQty",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 66,
+                      "src": "703:38:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "690:51:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 150,
+                  "nodeType": "ExpressionStatement",
+                  "src": "690:51:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 152,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getReceipt",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 105,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 102,
+                  "name": "userAddr",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "402:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 101,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "402:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 104,
+                  "name": "index",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "420:10:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 103,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "420:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "401:30:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 114,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 107,
+                  "name": "receiptId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "460:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 106,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "460:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 109,
+                  "name": "totalQty",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "476:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 108,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "476:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 111,
+                  "name": "remainQty",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "491:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 110,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "491:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 113,
+                  "name": "frozenQty",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "507:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 112,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "507:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "451:71:1"
+            },
+            "scope": 166,
+            "src": "382:364:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 164,
+              "nodeType": "Block",
+              "src": "864:43:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 159,
+                        "name": "userReceipt",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 72,
+                        "src": "875:11:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                          "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                        }
+                      },
+                      "id": 161,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 160,
+                        "name": "userAddr",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 154,
+                        "src": "887:8:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "875:21:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                        "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                      }
+                    },
+                    "id": 162,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "length",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "875:28:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 158,
+                  "id": 163,
+                  "nodeType": "Return",
+                  "src": "868:35:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 165,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getReceiptArrayLength",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 155,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 154,
+                  "name": "userAddr",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 165,
+                  "src": "820:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 153,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "820:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "819:18:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 158,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 157,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 165,
+                  "src": "858:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 156,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "858:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "857:6:1"
+            },
+            "scope": 166,
+            "src": "789:118:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 167,
+        "src": "26:883:1"
+      }
+    ],
+    "src": "0:910:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/jgm/goApp/src/receipt-trade/truffle_receipt/contracts/ReceiptTrade.sol",
+    "exportedSymbols": {
+      "ReceiptTrade": [
+        166
+      ]
+    },
+    "id": 167,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 58,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".23"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 166,
+        "linearizedBaseContracts": [
+          166
+        ],
+        "name": "ReceiptTrade",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "ReceiptTrade.Receipt",
+            "id": 67,
+            "members": [
+              {
+                "constant": false,
+                "id": 60,
+                "name": "receiptId",
+                "nodeType": "VariableDeclaration",
+                "scope": 67,
+                "src": "70:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 59,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "70:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 62,
+                "name": "totalQty",
+                "nodeType": "VariableDeclaration",
+                "scope": 67,
+                "src": "89:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 61,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "89:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 64,
+                "name": "remainQty",
+                "nodeType": "VariableDeclaration",
+                "scope": 67,
+                "src": "106:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 63,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "106:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 66,
+                "name": "frozenQty",
+                "nodeType": "VariableDeclaration",
+                "scope": 67,
+                "src": "125:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 65,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "125:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Receipt",
+            "nodeType": "StructDefinition",
+            "scope": 166,
+            "src": "51:93:1",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 72,
+            "name": "userReceipt",
+            "nodeType": "VariableDeclaration",
+            "scope": 166,
+            "src": "147:41:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+              "typeString": "mapping(address => struct ReceiptTrade.Receipt[])"
+            },
+            "typeName": {
+              "id": 71,
+              "keyType": {
+                "id": 68,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "155:7:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "147:29:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                "typeString": "mapping(address => struct ReceiptTrade.Receipt[])"
+              },
+              "valueType": {
+                "baseType": {
+                  "contractScope": null,
+                  "id": 69,
+                  "name": "Receipt",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 67,
+                  "src": "166:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Receipt_$67_storage_ptr",
+                    "typeString": "struct ReceiptTrade.Receipt"
+                  }
+                },
+                "id": 70,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "166:9:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_ptr",
+                  "typeString": "struct ReceiptTrade.Receipt[]"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 74,
+            "name": "_a",
+            "nodeType": "VariableDeclaration",
+            "scope": 166,
+            "src": "192:6:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_int256",
+              "typeString": "int256"
+            },
+            "typeName": {
+              "id": 73,
+              "name": "int",
+              "nodeType": "ElementaryTypeName",
+              "src": "192:3:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_int256",
+                "typeString": "int256"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 99,
+              "nodeType": "Block",
+              "src": "285:94:1",
+              "statements": [
+                {
+                  "assignments": [
+                    84
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 84,
+                      "name": "r",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 100,
+                      "src": "289:16:1",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Receipt_$67_memory_ptr",
+                        "typeString": "struct ReceiptTrade.Receipt"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 83,
+                        "name": "Receipt",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 67,
+                        "src": "289:7:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage_ptr",
+                          "typeString": "struct ReceiptTrade.Receipt"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 91,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 86,
+                        "name": "receiptId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 78,
+                        "src": "316:9:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 87,
+                        "name": "totalQty",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 80,
+                        "src": "327:8:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "30",
+                        "id": 88,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "337:1:1",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        },
+                        "value": "0"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "30",
+                        "id": 89,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "340:1:1",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        },
+                        "value": "0"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        },
+                        {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        }
+                      ],
+                      "id": 85,
+                      "name": "Receipt",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 67,
+                      "src": "308:7:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Receipt_$67_storage_ptr_$",
+                        "typeString": "type(struct ReceiptTrade.Receipt storage pointer)"
+                      }
+                    },
+                    "id": 90,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "308:34:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Receipt_$67_memory",
+                      "typeString": "struct ReceiptTrade.Receipt memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "289:53:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 96,
+                        "name": "r",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 84,
+                        "src": "373:1:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_memory_ptr",
+                          "typeString": "struct ReceiptTrade.Receipt memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Receipt_$67_memory_ptr",
+                          "typeString": "struct ReceiptTrade.Receipt memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 92,
+                          "name": "userReceipt",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 72,
+                          "src": "346:11:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                            "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                          }
+                        },
+                        "id": 94,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 93,
+                          "name": "userAddr",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 76,
+                          "src": "358:8:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "346:21:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                        }
+                      },
+                      "id": 95,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "346:26:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Receipt_$67_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct ReceiptTrade.Receipt storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 97,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "346:29:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 98,
+                  "nodeType": "ExpressionStatement",
+                  "src": "346:29:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 100,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "insertUserReceipt",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 81,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 76,
+                  "name": "userAddr",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 100,
+                  "src": "229:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 75,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "229:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 78,
+                  "name": "receiptId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 100,
+                  "src": "247:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 77,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "247:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 80,
+                  "name": "totalQty",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 100,
+                  "src": "263:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 79,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "263:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "228:49:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 82,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "285:0:1"
+            },
+            "scope": 166,
+            "src": "202:177:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 151,
+              "nodeType": "Block",
+              "src": "522:224:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 122,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 115,
+                      "name": "receiptId",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 107,
+                      "src": "526:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 116,
+                            "name": "userReceipt",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 72,
+                            "src": "540:11:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                              "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                            }
+                          },
+                          "id": 118,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 117,
+                            "name": "userAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 102,
+                            "src": "552:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "540:21:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                            "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                          }
+                        },
+                        "id": 120,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 119,
+                          "name": "index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 104,
+                          "src": "562:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "540:28:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref"
+                        }
+                      },
+                      "id": 121,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "receiptId",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 60,
+                      "src": "540:38:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "526:52:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 123,
+                  "nodeType": "ExpressionStatement",
+                  "src": "526:52:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 131,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 124,
+                      "name": "totalQty",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 109,
+                      "src": "582:8:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 125,
+                            "name": "userReceipt",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 72,
+                            "src": "594:11:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                              "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                            }
+                          },
+                          "id": 127,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 126,
+                            "name": "userAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 102,
+                            "src": "606:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "594:21:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                            "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                          }
+                        },
+                        "id": 129,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 128,
+                          "name": "index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 104,
+                          "src": "616:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "594:28:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref"
+                        }
+                      },
+                      "id": 130,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "totalQty",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 62,
+                      "src": "594:37:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "582:49:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 132,
+                  "nodeType": "ExpressionStatement",
+                  "src": "582:49:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 140,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 133,
+                      "name": "remainQty",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 111,
+                      "src": "635:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 134,
+                            "name": "userReceipt",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 72,
+                            "src": "648:11:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                              "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                            }
+                          },
+                          "id": 136,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 135,
+                            "name": "userAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 102,
+                            "src": "660:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "648:21:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                            "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                          }
+                        },
+                        "id": 138,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 137,
+                          "name": "index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 104,
+                          "src": "670:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "648:28:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref"
+                        }
+                      },
+                      "id": 139,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "remainQty",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 64,
+                      "src": "648:38:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "635:51:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 141,
+                  "nodeType": "ExpressionStatement",
+                  "src": "635:51:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 149,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 142,
+                      "name": "frozenQty",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 113,
+                      "src": "690:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 143,
+                            "name": "userReceipt",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 72,
+                            "src": "703:11:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                              "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                            }
+                          },
+                          "id": 145,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 144,
+                            "name": "userAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 102,
+                            "src": "715:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "703:21:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                            "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                          }
+                        },
+                        "id": 147,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 146,
+                          "name": "index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 104,
+                          "src": "725:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "703:28:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Receipt_$67_storage",
+                          "typeString": "struct ReceiptTrade.Receipt storage ref"
+                        }
+                      },
+                      "id": 148,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "frozenQty",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 66,
+                      "src": "703:38:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "690:51:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 150,
+                  "nodeType": "ExpressionStatement",
+                  "src": "690:51:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 152,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getReceipt",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 105,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 102,
+                  "name": "userAddr",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "402:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 101,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "402:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 104,
+                  "name": "index",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "420:10:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 103,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "420:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "401:30:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 114,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 107,
+                  "name": "receiptId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "460:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 106,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "460:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 109,
+                  "name": "totalQty",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "476:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 108,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "476:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 111,
+                  "name": "remainQty",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "491:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 110,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "491:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 113,
+                  "name": "frozenQty",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 152,
+                  "src": "507:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 112,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "507:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "451:71:1"
+            },
+            "scope": 166,
+            "src": "382:364:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 164,
+              "nodeType": "Block",
+              "src": "864:43:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 159,
+                        "name": "userReceipt",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 72,
+                        "src": "875:11:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Receipt_$67_storage_$dyn_storage_$",
+                          "typeString": "mapping(address => struct ReceiptTrade.Receipt storage ref[] storage ref)"
+                        }
+                      },
+                      "id": 161,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 160,
+                        "name": "userAddr",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 154,
+                        "src": "887:8:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "875:21:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_struct$_Receipt_$67_storage_$dyn_storage",
+                        "typeString": "struct ReceiptTrade.Receipt storage ref[] storage ref"
+                      }
+                    },
+                    "id": 162,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "length",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "875:28:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 158,
+                  "id": 163,
+                  "nodeType": "Return",
+                  "src": "868:35:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 165,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getReceiptArrayLength",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 155,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 154,
+                  "name": "userAddr",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 165,
+                  "src": "820:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 153,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "820:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "819:18:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 158,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 157,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 165,
+                  "src": "858:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 156,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "858:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "857:6:1"
+            },
+            "scope": 166,
+            "src": "789:118:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 167,
+        "src": "26:883:1"
+      }
+    ],
+    "src": "0:910:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {
+    "1542354039092": {
+      "events": {},
+      "links": {},
+      "address": "0xf53ddd627beb1b0cccd9865728479c1ff2490811",
+      "transactionHash": "0x91305adbc803cdd4940041bd1d3092e58e9c0c83d3ebe55ede074249ef6c89ba"
+    },
+    "1542420777506": {
+      "events": {},
+      "links": {},
+      "address": "0xad5588899fadb9a06caea29f355a5391511d6e72",
+      "transactionHash": "0x961c5e5ebd2d782b06f7c8a7e664037b209cd80bfc4708de8ad8ac0258aeda33"
+    },
+    "1542425742579": {
+      "events": {},
+      "links": {},
+      "address": "0x8a8bbc529e3ad76ed5d539f64a662339f440782c",
+      "transactionHash": "0xadb0dfefd06677ad97a3feaedfbf2b34153db79febc594a62c83f7cc2050a21a"
+    },
+    "1542426187998": {
+      "events": {},
+      "links": {},
+      "address": "0x2d1f1aad3938efc86c2398ec42bdfb40fa58a8c3",
+      "transactionHash": "0xadb0dfefd06677ad97a3feaedfbf2b34153db79febc594a62c83f7cc2050a21a"
+    },
+    "1542426358141": {
+      "events": {},
+      "links": {},
+      "address": "0x3af0737c9c5ed8c4294169ed89a376c88159e0b8",
+      "transactionHash": "0x7e522e2e9eeb5da6594fa11b387aa536e042b3d9d82b1dde0cd5da893928105c"
+    },
+    "1542427499844": {
+      "events": {},
+      "links": {},
+      "address": "0xeb4330af6cb79e6ff6421494d23d5893e51c12c4",
+      "transactionHash": "0x2962c75efafa5d2bdd469e3b7fd1f9bc44ab14c0b2ad236047ad5af9fe9cc7ac"
+    },
+    "1542427593739": {
+      "events": {},
+      "links": {},
+      "address": "0xbb004abef30efaf55cd8e515ce777e5bc3f72a1c",
+      "transactionHash": "0x0470333cbdfe13501a0ecd8ce98a53a3405eea5fdfdc1d37e15222be5f6bce3d"
+    },
+    "1542427666825": {
+      "events": {},
+      "links": {},
+      "address": "0x04d04bd0a34bfa439afeacc5c5a4e70c299aed41",
+      "transactionHash": "0x0470333cbdfe13501a0ecd8ce98a53a3405eea5fdfdc1d37e15222be5f6bce3d"
+    },
+    "1542427840545": {
+      "events": {},
+      "links": {},
+      "address": "0x8db3b5d9c6239dbc60c77a685bd4f41a1d9508f8",
+      "transactionHash": "0x0470333cbdfe13501a0ecd8ce98a53a3405eea5fdfdc1d37e15222be5f6bce3d"
+    },
+    "1542427910448": {
+      "events": {},
+      "links": {},
+      "address": "0xbdd31e13709e4af047b081d25026c0c5b264e8a2",
+      "transactionHash": "0xd1d12890bdd68f8ee07a7cc7157e2ccc107c95cde3bd870919dfc6f312bf3aaa"
+    },
+    "1542428248254": {
+      "events": {},
+      "links": {},
+      "address": "0x0c9dc9959aec0bf60f20e0a232778e024a76b349",
+      "transactionHash": "0x0ccb9be17a4db3ecca1df8628ebe475d3e13e7b4622f833cf0e91e1cf553ca8b"
+    },
+    "1542428417316": {
+      "events": {},
+      "links": {},
+      "address": "0xf772122f565cbf046d9612f7fc5728f7c81c8b27",
+      "transactionHash": "0xf9ffb2483490073e87f35149d8e130be4d70f699359240d0a110862ddc6b9335"
+    },
+    "1542429192378": {
+      "events": {},
+      "links": {},
+      "address": "0x9a23ce5876678ed448e3e4567102a07610e1dfa3",
+      "transactionHash": "0x0d38c89582a986ee7538a936b1393f099048bc2224912d44e2fb8f5ecca8a9b1"
+    },
+    "1542430820518": {
+      "events": {},
+      "links": {},
+      "address": "0x4e49d6af2893ad721035ddc74844a8f138662c65",
+      "transactionHash": "0x6946a9b0c6a4a2352716170f250f1250ecdde60a9ff3680b5eb045f80ebd922a"
+    },
+    "1542430899755": {
+      "events": {},
+      "links": {},
+      "address": "0x8efc1b047d291fef533b3a418c4fd3e06e6e4146",
+      "transactionHash": "0x6946a9b0c6a4a2352716170f250f1250ecdde60a9ff3680b5eb045f80ebd922a"
+    },
+    "1542430973128": {
+      "events": {},
+      "links": {},
+      "address": "0xeaa50a1e3114b601ad6b56297675c3614734d059",
+      "transactionHash": "0x6946a9b0c6a4a2352716170f250f1250ecdde60a9ff3680b5eb045f80ebd922a"
+    },
+    "1542431147778": {
+      "events": {},
+      "links": {},
+      "address": "0x2991ffc66c9e374eb483fb1ce272443f2b82d6fa",
+      "transactionHash": "0x6946a9b0c6a4a2352716170f250f1250ecdde60a9ff3680b5eb045f80ebd922a"
+    },
+    "1542431179171": {
+      "events": {},
+      "links": {},
+      "address": "0x16d7fc8fc252bd30cb250f73635ef10de681c897",
+      "transactionHash": "0x6946a9b0c6a4a2352716170f250f1250ecdde60a9ff3680b5eb045f80ebd922a"
+    },
+    "1542431896648": {
+      "events": {},
+      "links": {},
+      "address": "0x53ad34e25e77d7cd4e6e70c8ed06daf7281d9082",
+      "transactionHash": "0x6946a9b0c6a4a2352716170f250f1250ecdde60a9ff3680b5eb045f80ebd922a"
+    },
+    "1542441170940": {
+      "events": {},
+      "links": {},
+      "address": "0x3f03c60215319e3068b8ebf9cbbab16c3856fd0b",
+      "transactionHash": "0x80796b0e718af259acda73600a17dd60630e3ccdea4ae0adf3984d9ffb3052ff"
+    },
+    "1542617120664": {
+      "events": {},
+      "links": {},
+      "address": "0xc6a7dbbfb3e66ceb023b6f3a5e23133f9ad1d097",
+      "transactionHash": "0xc460d2749eb7f2454c1865a6a463f333c6df53bc869170eb4f339dd7e0ff0450"
+    },
+    "1542676646738": {
+      "events": {},
+      "links": {},
+      "address": "0x2532b7c0e1280c2be80c665893beef8e378aa811",
+      "transactionHash": "0x5cc196995fec1d80bf877e608897259ccef473108b689802dd7ecd9551b25015"
+    }
+  },
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-11-20T01:17:47.447Z"
+}

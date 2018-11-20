@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title> 管理员 </title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+		</script>
+	</head>
+	<body>
+		<div>
+			<form>
+				品种：
+				<input type="text" id="class" value="普麦">
+				<br>
+				产期：
+				<input type="text" id="productionDate" value="2018">
+				<br>
+				等级：
+				<input type="text" id="level" value="328">
+				<br>
+				仓库：
+				<input type="text" id="warehouse"value="中储郑州">
+				<br>
+				产地：
+				<input type="text" id="provenance" value="河南">
+				<br>
+				数量：
+				<input type="text" id="receiptAmount" value="100">
+				<br>
+			</form>
+			<button type="button" id="bt_addReceiptInfo">录入仓单信息</button>
+		</div>
+		<div>
+			<form>
+				用户Id：
+				<input type="text" id="userId1" value="1">
+				<br>
+				仓单编号：
+				<input type="text" id="receiptId" value="1">
+				<br>
+				仓单总量：
+				<input type="text" id="totalQty" value="100">
+				<br>
+			</form>
+			<button type="button" id="bt_addReceiptQty">为用户增加仓单</button> 
+		</div>
+		<div>
+			<form>
+				用户Id：
+				<input type="text" id="userId2" value="1">
+				<br>
+				资金总量：
+				<input type="text" id="fundsTotalQty" value="10000">
+				<br>
+			</form>
+			<button type="button" id="bt_addFundsQty">为用户增加资金</button>
+		</div>
+	</body>
+	<script src="/static/js/admin.js"></script>
+</html>

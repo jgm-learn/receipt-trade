@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package grpcPB;
+
+message Request {
+	string 	UserAddr 	= 	1;
+	int64 	ReceiptId	= 	2;
+	int64 	TotalQty	= 	3;
+}
+
+message Reply {
+	int64 	Rst 	= 	1;
+}
+
+service RPCService {
+	rpc InsertReceipt(Request) returns (Reply) {}
+}
+

@@ -1,0 +1,31 @@
+<!DOCtYPE html>
+<html>
+<head>
+	<title>用户 </title>
+	<style>
+		.licl-table{
+			width: 500px;
+			border: 1px solid #000000;
+			border-collapse: collapse; 
+		}
+		.licl-table th,td{
+			text-align: center;
+			border: 1px solid #000000
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+	</script>
+</head>
+<body>
+	<div>公钥： <span id="publicKey"></span> </div>
+	<div>总资金：<span id="totalFunds"></span></div>
+    <div style="padding-top:5px">可用资金：<span id="remainingFunds"></span></div>
+    <div style="padding-top:5px">冻结资金：<span id="frozenFunds"></span></div>
+
+	<div>拥有的仓单</div>
+	<table class="licl-table" id="simpleTable"></table>
+
+</body>
+
+<script src="/static/js/user.js"></script>
+</html>
