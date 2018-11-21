@@ -22,7 +22,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type Request struct {
+type IstRctRequest struct {
 	UserAddr             string   `protobuf:"bytes,1,opt,name=UserAddr,proto3" json:"UserAddr,omitempty"`
 	ReceiptId            int64    `protobuf:"varint,2,opt,name=ReceiptId,proto3" json:"ReceiptId,omitempty"`
 	TotalQty             int64    `protobuf:"varint,3,opt,name=TotalQty,proto3" json:"TotalQty,omitempty"`
@@ -31,54 +31,102 @@ type Request struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Request) Reset()         { *m = Request{} }
-func (m *Request) String() string { return proto.CompactTextString(m) }
-func (*Request) ProtoMessage()    {}
-func (*Request) Descriptor() ([]byte, []int) {
+func (m *IstRctRequest) Reset()         { *m = IstRctRequest{} }
+func (m *IstRctRequest) String() string { return proto.CompactTextString(m) }
+func (*IstRctRequest) ProtoMessage()    {}
+func (*IstRctRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_07c2e5be8b017ffe, []int{0}
 }
 
-func (m *Request) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Request.Unmarshal(m, b)
+func (m *IstRctRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_IstRctRequest.Unmarshal(m, b)
 }
-func (m *Request) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Request.Marshal(b, m, deterministic)
+func (m *IstRctRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_IstRctRequest.Marshal(b, m, deterministic)
 }
-func (m *Request) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Request.Merge(m, src)
+func (m *IstRctRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_IstRctRequest.Merge(m, src)
 }
-func (m *Request) XXX_Size() int {
-	return xxx_messageInfo_Request.Size(m)
+func (m *IstRctRequest) XXX_Size() int {
+	return xxx_messageInfo_IstRctRequest.Size(m)
 }
-func (m *Request) XXX_DiscardUnknown() {
-	xxx_messageInfo_Request.DiscardUnknown(m)
+func (m *IstRctRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_IstRctRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Request proto.InternalMessageInfo
+var xxx_messageInfo_IstRctRequest proto.InternalMessageInfo
 
-func (m *Request) GetUserAddr() string {
+func (m *IstRctRequest) GetUserAddr() string {
 	if m != nil {
 		return m.UserAddr
 	}
 	return ""
 }
 
-func (m *Request) GetReceiptId() int64 {
+func (m *IstRctRequest) GetReceiptId() int64 {
 	if m != nil {
 		return m.ReceiptId
 	}
 	return 0
 }
 
-func (m *Request) GetTotalQty() int64 {
+func (m *IstRctRequest) GetTotalQty() int64 {
 	if m != nil {
 		return m.TotalQty
 	}
 	return 0
 }
 
+type IstFundsRequest struct {
+	UserAddr             string   `protobuf:"bytes,1,opt,name=UserAddr,proto3" json:"UserAddr,omitempty"`
+	TotalFunds           int64    `protobuf:"varint,2,opt,name=TotalFunds,proto3" json:"TotalFunds,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *IstFundsRequest) Reset()         { *m = IstFundsRequest{} }
+func (m *IstFundsRequest) String() string { return proto.CompactTextString(m) }
+func (*IstFundsRequest) ProtoMessage()    {}
+func (*IstFundsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_07c2e5be8b017ffe, []int{1}
+}
+
+func (m *IstFundsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_IstFundsRequest.Unmarshal(m, b)
+}
+func (m *IstFundsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_IstFundsRequest.Marshal(b, m, deterministic)
+}
+func (m *IstFundsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_IstFundsRequest.Merge(m, src)
+}
+func (m *IstFundsRequest) XXX_Size() int {
+	return xxx_messageInfo_IstFundsRequest.Size(m)
+}
+func (m *IstFundsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_IstFundsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_IstFundsRequest proto.InternalMessageInfo
+
+func (m *IstFundsRequest) GetUserAddr() string {
+	if m != nil {
+		return m.UserAddr
+	}
+	return ""
+}
+
+func (m *IstFundsRequest) GetTotalFunds() int64 {
+	if m != nil {
+		return m.TotalFunds
+	}
+	return 0
+}
+
 type Reply struct {
-	Rst                  int64    `protobuf:"varint,1,opt,name=Rst,proto3" json:"Rst,omitempty"`
+	RstCode              int64    `protobuf:"varint,1,opt,name=RstCode,proto3" json:"RstCode,omitempty"`
+	RstDetails           string   `protobuf:"bytes,2,opt,name=RstDetails,proto3" json:"RstDetails,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -88,7 +136,7 @@ func (m *Reply) Reset()         { *m = Reply{} }
 func (m *Reply) String() string { return proto.CompactTextString(m) }
 func (*Reply) ProtoMessage()    {}
 func (*Reply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_07c2e5be8b017ffe, []int{1}
+	return fileDescriptor_07c2e5be8b017ffe, []int{2}
 }
 
 func (m *Reply) XXX_Unmarshal(b []byte) error {
@@ -109,34 +157,46 @@ func (m *Reply) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Reply proto.InternalMessageInfo
 
-func (m *Reply) GetRst() int64 {
+func (m *Reply) GetRstCode() int64 {
 	if m != nil {
-		return m.Rst
+		return m.RstCode
 	}
 	return 0
 }
 
+func (m *Reply) GetRstDetails() string {
+	if m != nil {
+		return m.RstDetails
+	}
+	return ""
+}
+
 func init() {
-	proto.RegisterType((*Request)(nil), "grpcPB.Request")
+	proto.RegisterType((*IstRctRequest)(nil), "grpcPB.IstRctRequest")
+	proto.RegisterType((*IstFundsRequest)(nil), "grpcPB.IstFundsRequest")
 	proto.RegisterType((*Reply)(nil), "grpcPB.Reply")
 }
 
 func init() { proto.RegisterFile("grpcPB.proto", fileDescriptor_07c2e5be8b017ffe) }
 
 var fileDescriptor_07c2e5be8b017ffe = []byte{
-	// 181 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x49, 0x2f, 0x2a, 0x48,
-	0x0e, 0x70, 0xd2, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x83, 0xf0, 0x94, 0xe2, 0xb9, 0xd8,
-	0x83, 0x52, 0x0b, 0x4b, 0x53, 0x8b, 0x4b, 0x84, 0xa4, 0xb8, 0x38, 0x42, 0x8b, 0x53, 0x8b, 0x1c,
-	0x53, 0x52, 0x8a, 0x24, 0x18, 0x15, 0x18, 0x35, 0x38, 0x83, 0xe0, 0x7c, 0x21, 0x19, 0x2e, 0xce,
-	0xa0, 0xd4, 0xe4, 0xd4, 0xcc, 0x82, 0x12, 0xcf, 0x14, 0x09, 0x26, 0x05, 0x46, 0x0d, 0xe6, 0x20,
-	0x84, 0x00, 0x48, 0x67, 0x48, 0x7e, 0x49, 0x62, 0x4e, 0x60, 0x49, 0xa5, 0x04, 0x33, 0x58, 0x12,
-	0xce, 0x57, 0x92, 0xe4, 0x62, 0x0d, 0x4a, 0x2d, 0xc8, 0xa9, 0x14, 0x12, 0xe0, 0x62, 0x0e, 0x2a,
-	0x2e, 0x01, 0x9b, 0xcc, 0x1c, 0x04, 0x62, 0x1a, 0xd9, 0x73, 0x71, 0x05, 0x05, 0x38, 0x07, 0xa7,
-	0x16, 0x95, 0x65, 0x26, 0xa7, 0x0a, 0x19, 0x72, 0xf1, 0x7a, 0xe6, 0x15, 0xa7, 0x16, 0x95, 0x40,
-	0xcd, 0x15, 0xe2, 0xd7, 0x83, 0xba, 0x18, 0xea, 0x40, 0x29, 0x5e, 0x84, 0x40, 0x41, 0x4e, 0xa5,
-	0x12, 0x43, 0x12, 0x1b, 0xd8, 0x2f, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0xca, 0x10, 0xb9,
-	0xd2, 0xdb, 0x00, 0x00, 0x00,
+	// 250 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x91, 0x41, 0x4b, 0xc3, 0x40,
+	0x10, 0x85, 0x8d, 0xc1, 0x6a, 0x06, 0x4b, 0x71, 0x40, 0x0c, 0x45, 0xa4, 0xe4, 0xd4, 0x53, 0x0f,
+	0x7a, 0xec, 0xa9, 0x56, 0x84, 0x1c, 0x84, 0x3a, 0xea, 0x0f, 0xa8, 0xd9, 0x41, 0x02, 0xa1, 0xbb,
+	0xee, 0x4c, 0x85, 0xfe, 0x01, 0x7f, 0xb7, 0x64, 0x9b, 0xb6, 0x2b, 0x5e, 0x3c, 0xbe, 0xb7, 0x7c,
+	0x6f, 0xde, 0xcc, 0xc2, 0xf9, 0x87, 0x77, 0xd5, 0xe2, 0x7e, 0xe2, 0xbc, 0x55, 0x8b, 0xbd, 0xad,
+	0x2a, 0x18, 0xfa, 0xa5, 0x28, 0x55, 0x4a, 0xfc, 0xb9, 0x66, 0x51, 0x1c, 0xc2, 0xd9, 0x9b, 0xb0,
+	0x9f, 0x19, 0xe3, 0xf3, 0x64, 0x94, 0x8c, 0x33, 0xda, 0x6b, 0xbc, 0x86, 0x8c, 0xb8, 0xe2, 0xda,
+	0x69, 0x69, 0xf2, 0xe3, 0x51, 0x32, 0x4e, 0xe9, 0x60, 0xb4, 0xe4, 0xab, 0xd5, 0x65, 0xf3, 0xac,
+	0x9b, 0x3c, 0x0d, 0x8f, 0x7b, 0x5d, 0x3c, 0xc1, 0xa0, 0x14, 0x7d, 0x5c, 0xaf, 0x8c, 0xfc, 0x67,
+	0xd0, 0x0d, 0x40, 0x40, 0x03, 0xd0, 0x4d, 0x8a, 0x9c, 0x62, 0x06, 0x27, 0xc4, 0xae, 0xd9, 0x60,
+	0x0e, 0xa7, 0x24, 0x3a, 0xb7, 0x86, 0x43, 0x46, 0x4a, 0x3b, 0xd9, 0x46, 0x90, 0xe8, 0x03, 0xeb,
+	0xb2, 0x6e, 0xb6, 0x11, 0x19, 0x45, 0xce, 0xed, 0x77, 0x02, 0x40, 0x8b, 0xf9, 0x0b, 0xfb, 0xaf,
+	0xba, 0x62, 0x9c, 0xc2, 0x45, 0xb9, 0x12, 0xf6, 0xda, 0x76, 0xe8, 0x76, 0xc2, 0xcb, 0x49, 0x77,
+	0xb3, 0x5f, 0x27, 0x1a, 0xf6, 0x77, 0x76, 0xe8, 0x50, 0x1c, 0xe1, 0x14, 0x06, 0x07, 0x38, 0x34,
+	0xc4, 0xab, 0x08, 0x8d, 0xd7, 0xfe, 0x03, 0xbf, 0xf7, 0xc2, 0x87, 0xdc, 0xfd, 0x04, 0x00, 0x00,
+	0xff, 0xff, 0xf2, 0x08, 0x15, 0xf2, 0xa0, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -151,7 +211,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type RPCServiceClient interface {
-	InsertReceipt(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Reply, error)
+	InsertUserReceipt(ctx context.Context, in *IstRctRequest, opts ...grpc.CallOption) (*Reply, error)
+	InsertUserFunds(ctx context.Context, in *IstFundsRequest, opts ...grpc.CallOption) (*Reply, error)
 }
 
 type rPCServiceClient struct {
@@ -162,9 +223,18 @@ func NewRPCServiceClient(cc *grpc.ClientConn) RPCServiceClient {
 	return &rPCServiceClient{cc}
 }
 
-func (c *rPCServiceClient) InsertReceipt(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Reply, error) {
+func (c *rPCServiceClient) InsertUserReceipt(ctx context.Context, in *IstRctRequest, opts ...grpc.CallOption) (*Reply, error) {
 	out := new(Reply)
-	err := c.cc.Invoke(ctx, "/grpcPB.RPCService/InsertReceipt", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/grpcPB.RPCService/InsertUserReceipt", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rPCServiceClient) InsertUserFunds(ctx context.Context, in *IstFundsRequest, opts ...grpc.CallOption) (*Reply, error) {
+	out := new(Reply)
+	err := c.cc.Invoke(ctx, "/grpcPB.RPCService/InsertUserFunds", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -173,27 +243,46 @@ func (c *rPCServiceClient) InsertReceipt(ctx context.Context, in *Request, opts 
 
 // RPCServiceServer is the server API for RPCService service.
 type RPCServiceServer interface {
-	InsertReceipt(context.Context, *Request) (*Reply, error)
+	InsertUserReceipt(context.Context, *IstRctRequest) (*Reply, error)
+	InsertUserFunds(context.Context, *IstFundsRequest) (*Reply, error)
 }
 
 func RegisterRPCServiceServer(s *grpc.Server, srv RPCServiceServer) {
 	s.RegisterService(&_RPCService_serviceDesc, srv)
 }
 
-func _RPCService_InsertReceipt_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Request)
+func _RPCService_InsertUserReceipt_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IstRctRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RPCServiceServer).InsertReceipt(ctx, in)
+		return srv.(RPCServiceServer).InsertUserReceipt(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpcPB.RPCService/InsertReceipt",
+		FullMethod: "/grpcPB.RPCService/InsertUserReceipt",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RPCServiceServer).InsertReceipt(ctx, req.(*Request))
+		return srv.(RPCServiceServer).InsertUserReceipt(ctx, req.(*IstRctRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RPCService_InsertUserFunds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IstFundsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RPCServiceServer).InsertUserFunds(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpcPB.RPCService/InsertUserFunds",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RPCServiceServer).InsertUserFunds(ctx, req.(*IstFundsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -203,8 +292,12 @@ var _RPCService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*RPCServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "InsertReceipt",
-			Handler:    _RPCService_InsertReceipt_Handler,
+			MethodName: "InsertUserReceipt",
+			Handler:    _RPCService_InsertUserReceipt_Handler,
+		},
+		{
+			MethodName: "InsertUserFunds",
+			Handler:    _RPCService_InsertUserFunds_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

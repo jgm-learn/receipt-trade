@@ -34,10 +34,14 @@ async function start(){
 	});
 }
 
-function getFunds(){
-	$.getJSON("http://222.22.64.80:8081/user/getFunds", publicKey, function(data){
+//从智能合约获取资金
+async function getFunds(){
+	//$.getJSON("http://222.22.64.80:8081/user/getFunds", publicKey, function(data){
+	var rst = await instance.getFunds(account);
+	console.log(rst);
 		var colums = [{title: "总资金"}, {title: "可用资金"}, {title: "冻结资金"}];
 
+		//构建表格
 		var table 	= 	document.getElementById("fundsTable")
 		var thead 	=	document.createElement("thead")
 		table.appendChild(thead)
@@ -51,20 +55,16 @@ function getFunds(){
 			th.innerHTML = colums[i].title
 		}
 
-		var tr = document.createElement("tr");
-		table.lastChild.appendChild(tr);
-		var td = document.createElement("td");
-		tr.appendChild(td);
-		td.innerHTML = data.TotalFunds;
-		var td = document.createElement("td");
-		tr.appendChild(td);
-		td.innerHTML = data.RemainingFunds;
-		var td = document.createElement("td");
-		tr.appendChild(td);
-		td.innerHTML = data.FrozenFunds;
-	})
+	var tr = document.createElement("tr");
+	table.lastChild.appendChild(tr)
+	for(var j = 0; j < colums.length; j++){
+			var td = document.createElement("td")
+			tr.appendChild(td)
+			td.innerHTML = rst[j].c[0]
+	}
 }
 
+//从智能合约获取仓单
 async function getReceipt(){
 	var colums = [{
 			title: "仓单编号",

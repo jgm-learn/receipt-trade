@@ -2,17 +2,24 @@ syntax = "proto3";
 
 package grpcPB;
 
-message Request {
+message IstRctRequest {
 	string 	UserAddr 	= 	1;
 	int64 	ReceiptId	= 	2;
 	int64 	TotalQty	= 	3;
 }
 
+message IstFundsRequest {
+	string 	UserAddr 	=	1;
+	int64 	TotalFunds	=	2;
+}
+
 message Reply {
-	int64 	Rst 	= 	1;
+	int64 	RstCode 	= 	1;
+	string 	RstDetails	= 	2;
 }
 
 service RPCService {
-	rpc InsertReceipt(Request) returns (Reply) {}
+	rpc InsertUserReceipt(IstRctRequest) returns (Reply) {}
+	rpc InsertUserFunds(IstFundsRequest) returns (Reply){}
 }
 

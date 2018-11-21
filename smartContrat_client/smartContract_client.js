@@ -69,21 +69,23 @@ async function main() {
 
 	var server = new grpc.Server();		//创建服务器
 	server.addService(rpc_proto.RPCService.service,{
-		InsertReceipt: InsertReceipt
+		InsertUserReceipt: 	insertUserReceipt,
+		InsertUserFunds:	insertUserFunds
 	});
 	server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());	//绑定地址
 	server.start();			//启动服务器
+	console.log("服务器已启动，正在监听.....")
 }
 
 //服务函数
-async function InsertReceipt(call, callback) {
+async function insertUserReceipt(call, callback) {
 
 	var userAddr 	= 	call.request.UserAddr;
 	var ReceiptId	=	call.request.ReceiptId;
 	var TotalQty	=	call.request.TotalQty;
 	await instance.insertUserReceipt(userAddr, ReceiptId, TotalQty, {from: account, gas: 9000000});	//为用户添加仓单
 
-	callback(null, {Rst: 1});
+	callback(null, {RstCode: 0, RstDetails : "智能合约，为用户添加仓单成功"});
 
 	var length = await instance.getReceiptArrayLength(userAddr); //获取用户仓单的种类数量
 	console.log(length.c[0])
@@ -98,4 +100,15 @@ async function InsertReceipt(call, callback) {
 	console.log(myArray);
 }
 
+//为用户添加资金
+async function insertUserFunds(call, callback){
+	var userAddr 	=	call.request.UserAddr;
+	var totalFunds	=	call.request.TotalFunds;
+
+	//调用智能合约，为用户添加资金
+	await instance.insertUserFunds(userAddr, totalFunds, {from: account, gas: 9000000});
+
+	callback(null, {RstCode: 0, RstDetails: "智能合约，为用户添加资金成功"})
+
+}
 main();

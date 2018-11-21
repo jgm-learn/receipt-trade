@@ -53,10 +53,9 @@ func (this *AdminController) AddUserReceipt() {
 
 	fmt.Printf("\n")
 	//查询用户的以太坊地址
-	var userInfo models.User
-	o.QueryTable("user").Filter("user_id", userReceipt.UserId).One(&userInfo) //查询用户信息
-	if len(userInfo.PublicKey) == 0 {
-		fmt.Printf("admin.go 第50行代码执行失败，用户%d不存在\n", userReceipt.UserId)
+	var userAddr = getUserAddr(userReceipt.UserId)
+	if len(userAddr) == 0 {
+		fmt.Printf("查询数据库失败，用户%d不存在\n", userReceipt.UserId)
 		return
 	}
 
@@ -74,18 +73,18 @@ func (this *AdminController) AddUserReceipt() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	var request pb.Request
-	request.UserAddr = userInfo.PublicKey
+	var request pb.IstRctRequest
+	request.UserAddr = userAddr
 	request.ReceiptId = int64(userReceipt.ReceiptId)
 	request.TotalQty = int64(userReceipt.TotalQuantity)
-	rst, err := client.InsertReceipt(ctx, &request) //调用智能合约，为用户添加仓单
+	rst, err := client.InsertUserReceipt(ctx, &request) //调用智能合约，为用户添加仓单
 
 	if err != nil {
 		fmt.Printf("admin.go 第78行执行失败，客户端rpc执行失败！err: %v\n", err)
 		return
 	}
 
-	fmt.Printf("rpc客户端调用成功。返回结果：%d\n", rst.Rst)
+	fmt.Printf("rpc客户端调用成功。返回结果：%s\n", rst.RstDetails)
 	fmt.Printf("<---------------------------->\n")
 }
 
@@ -103,4 +102,38 @@ func (this *AdminController) AddUserFunds() {
 		fmt.Println("json Unmarshal 出错：")
 		fmt.Println(err)
 	}
+
+	//查询用户的以太坊地址
+	var userAddr = getUserAddr(userFunds.UserId)
+	if len(userAddr) == 0 {
+		fmt.Printf("查询数据库失败，用户%d不存在\n", userFunds.UserId)
+		return
+	}
+	fmt.Printf("\n")
+	//调用智能合约-建立连接
+	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	if err != nil {
+		fmt.Printf("admin.go 第114行执行失败，grpc客户端连接失败！ err: %v\n", err)
+	}
+	defer conn.Close()
+	client := pb.NewRPCServiceClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	var request pb.IstFundsRequest
+	request.UserAddr = userAddr
+	request.TotalFunds = int64(userFunds.TotalFunds)
+	rst, err := client.InsertUserFunds(ctx, &request) //调用智能合约，为用户添加仓单
+	if err != nil {
+		fmt.Printf("admin.go 第125行执行失败，客户端rpc执行失败！err: %v\n", err)
+		return
+	}
+	fmt.Printf("rpc客户端调用成功。返回结果：%s\n", rst.RstDetails)
+	fmt.Printf("<---------------------------->\n")
+}
+
+//查询用户的以太坊地址
+func getUserAddr(userId int) string {
+	var userInfo models.User
+	o.QueryTable("user").Filter("user_id", userId).One(&userInfo) //查询用户信息
+	return userInfo.PublicKey
 }
