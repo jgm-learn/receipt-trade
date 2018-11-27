@@ -75,6 +75,8 @@ async function main() {
 	server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());	//绑定地址
 	server.start();			//启动服务器
 	console.log("服务器已启动，正在监听.....")
+
+	trade();
 }
 
 //服务函数
@@ -109,6 +111,49 @@ async function insertUserFunds(call, callback){
 	await instance.insertUserFunds(userAddr, totalFunds, {from: account, gas: 9000000});
 
 	callback(null, {RstCode: 0, RstDetails: "智能合约，为用户添加资金成功"})
+
+}
+
+//处理摘牌
+async function trade() {
+	//var tradeValues 	= 	[1,10,6,1];
+	var tradeValues 	= 	26;
+	var tradeAddress 	=	[account];
+
+	var orderInfo 		= 	"010";
+	var hash 			= 	web3.sha3('1','16');
+	var hash2			= 	web3.sha3('116');
+	//var hash 			= 	web3.utils.soliditySha3(26);
+	var sig 			= 	web3.eth.sign(account, hash);
+	var r				=	sig.slice(0, 66);
+	var s				=	'0x' + sig.slice(66, 130);
+	var v 				=	web3.toDecimal(sig.slice(130,132)) + 27;
+	var vArray			=	[v];
+	var rsArray			=	[{r,s}]
+
+	console.log(hash);
+	console.log(hash2);
+
+	 //await instance.trade(tradeValues, tradeAddress, vArray, rsArray, {from: account, gas: 9000000});
+	 //await instance.trade(account, v, r, s,  {from: account, gas: 9000000});
+	 await instance.trade(tradeValues, account, v, r, s,  {from: account, gas: 9000000});
+
+	var event = await instance.getErrCode();
+
+	//console.log(event);
+
+	event.watch(function(err, rst){
+		if (!err){
+			console.log(rst.args.errCode.c[0]);
+		}
+	})
+
+	event = await instance.getHash();
+	event.watch(function(err, rst){
+		if (!err){
+			console.log(rst.args.hash);
+		}
+	})
 
 }
 main();

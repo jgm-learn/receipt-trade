@@ -53,4 +53,34 @@ contract ReceiptTrade {
 		frozenFunds = 	userFunds[userAddr].frozenFunds;
 	}
 
+	event getErrCode(int errCode);
+	event getHash(bytes32 hash);
+	//function trade(uint[6] tradeValues, address[2] tradeAddress, uint8[2] v, bytes32[4]rs) public  {
+	//function trade(address addr, uint8 v, bytes32 r, bytes32 s){
+	function trade(uint tradeValues, address addr, uint8 v, bytes32 r, bytes32 s){
+		/*
+		   tradeValues
+		   	[0] receiptId
+		   	[1] amountSell
+		   	[2] price 
+		   	[3] nonceSell 
+		   	[4] amountBuy
+		   	[5] nonceBuy
+		   tradeAddress
+		   	[0] addressSell
+			[1] addressBuy
+		*/
+
+	   //bytes32 orderHash = sha3(tradeValues[0], tradeValues[1], tradeValues[2], tradeValues[3]);
+	   //bytes32 orderHash = sha3("11061");
+	   bytes32 orderHash = sha3(uint256(1),uint256(16));
+	   getHash(orderHash);
+	   bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+	   bytes32 hash = sha3(prefix, orderHash);
+	   if ( ecrecover(hash, v, r, s) != addr)
+		   getErrCode(25);
+	   else 
+		   getErrCode(26);
+	}
+
 }
