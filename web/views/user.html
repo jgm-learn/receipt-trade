@@ -18,12 +18,30 @@
 </head>
 <body>
 	<div>公钥： <span id="publicKey"></span> </div>
+	<div>用户ID： <span id="userId"></span> </div>
 	<div>用户的资金</div>
 	<table class="licl-table" id="fundsTable"></table>
 
 	<div>拥有的仓单</div>
 	<table class="licl-table" id="simpleTable"></table>
 
+	<div>挂牌</div>
+	<div>
+		<form>
+			仓单编号：
+			<input type="text" id="receiptId" value="1">
+			<br>
+			价格：
+			<input type="text" id="price" value="10">
+			<br>
+			数量：
+			<input type="text" id="QtySell" value="3">
+			<br>
+		</form>
+			<button type="button" id="bt_listTrade">挂牌</button>
+	</div>
+
+			<button type="button" id="bt_setNonce">设置nonce</button>
 </body>
 
 <script src="/static/js/user.js"></script>

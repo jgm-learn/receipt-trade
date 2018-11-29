@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -15,6 +16,36 @@ type UserController struct {
 func (this *UserController) Get() {
 	this.TplName = "user.html"
 }
+func (this *UserController) GetUserId() {
+	user := new(models.User)
+	userAddr := this.GetString("userAddr")
+	user.PublicKey = userAddr
+
+	err := o.Read(user, "PublicKey") //根据公钥查询user
+	if err == orm.ErrNoRows {
+		fmt.Println("查询不到")
+	} else if err == orm.ErrMissPK {
+		fmt.Println("找不到主键")
+	}
+	this.Data["json"] = &user
+	this.ServeJSON()
+}
+
+func (this *UserController) GetUserNonce() {
+	user := new(models.User)
+	userAddr := this.GetString("userAddr")
+	user.PublicKey = userAddr
+
+	err := o.Read(user, "PublicKey") //根据公钥查询user
+	if err == orm.ErrNoRows {
+		fmt.Println("查询不到")
+	} else if err == orm.ErrMissPK {
+		fmt.Println("找不到主键")
+	}
+	this.Data["json"] = &user
+	this.ServeJSON()
+}
+
 func (this *UserController) GetFunds() {
 	//orm.RegisterDataBase("default", "mysql", "root:root@/receipt_trade?charset=utf8", 30)
 	//o := orm.NewOrm()
@@ -66,4 +97,30 @@ func (this *UserController) GetReceipt() {
 
 	this.Data["json"] = &userReceipts
 	this.ServeJSON()
+}
+
+func (this *UserController) ListTrade() {
+	fmt.Printf("<---------------------------->\n")
+	fmt.Printf("user.go ListTrade() 挂牌执行输出如下：\n")
+	this.TplName = "user.html"
+	var orderSell models.OrderSell //用户仓单结构体
+
+	body := this.Ctx.Input.RequestBody //获取http数据
+	fmt.Printf("前端传来数据如下：\n")
+	fmt.Println(string(body))
+	if err := json.Unmarshal(body, &orderSell); err == nil {
+		orderSell.Insert() //写入数据库
+	} else {
+		fmt.Println("json Unmarshal 出错：")
+		fmt.Println(err)
+	}
+
+	num, err := o.QueryTable("user").Filter("user_id", orderSell.UserId).Update(orm.Params{
+		"nonce": orderSell.NonceSell})
+	if err == nil {
+		fmt.Printf("更新user表 nonce字段成功 id = %d\n", num)
+	} else {
+		fmt.Printf("更新user表 nonce字段失败 %v", err)
+	}
+	fmt.Printf("<---------------------------->\n")
 }

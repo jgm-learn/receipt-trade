@@ -55,6 +55,7 @@ async  function start(){
 
 async function main() {
 	instance = await ReceiptTrade.deployed();	//创建合约实例
+	await instance.setNonce(1, {from:account, gas:9000000});
 
 	var PROTO_PATH = "/home/jgm/goApp/src/receipt-trade/web/controllers/grpcPB/grpcPB.proto"
 	var packageDefinition = protoLoader.loadSync(
@@ -70,13 +71,14 @@ async function main() {
 	var server = new grpc.Server();		//创建服务器
 	server.addService(rpc_proto.RPCService.service,{
 		InsertUserReceipt: 	insertUserReceipt,
-		InsertUserFunds:	insertUserFunds
+		InsertUserFunds:	insertUserFunds,
+		Trade: 				trade
 	});
 	server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());	//绑定地址
 	server.start();			//启动服务器
 	console.log("服务器已启动，正在监听.....")
 
-	trade();
+	//trade();
 }
 
 //服务函数
@@ -115,28 +117,26 @@ async function insertUserFunds(call, callback){
 }
 
 //处理摘牌
-async function trade() {
-	//var tradeValues 	= 	[1,10,6,1];
-	var tradeValues 	= 	26;
-	var tradeAddress 	=	[account];
+async function trade(call, callback) {
+	var tradeValues	= new Array(); //receiptId price QtySell nonceSell
+	tradeValues[0] = call.request.ReceiptId;
+	tradeValues[1] = call.request.Price;
+	tradeValues[2] = call.request.QtySell;
+	tradeValues[3] = call.request.NonceSell;
 
-	var orderInfo 		= 	"010";
-	var hash 			= 	web3.sha3('1','16');
-	var hash2			= 	web3.sha3('116');
-	//var hash 			= 	web3.utils.soliditySha3(26);
-	var sig 			= 	web3.eth.sign(account, hash);
-	var r				=	sig.slice(0, 66);
-	var s				=	'0x' + sig.slice(66, 130);
-	var v 				=	web3.toDecimal(sig.slice(130,132)) + 27;
-	var vArray			=	[v];
-	var rsArray			=	[{r,s}]
+	var AddrSell 	=	call.request.AddrSell;
 
-	console.log(hash);
-	console.log(hash2);
+	var sigSell 		= 	call.request.SigSell;
+	console.log(call.request.SigSell)
+	var r				=	sigSell.slice(0, 66);
+	var s				=	'0x' + sigSell.slice(66, 130);
+	var v 				=  	'0x' + sigSell.slice(130,132);
+	v 				=	await web3.toDecimal(v);
+	console.log(v);
 
-	 //await instance.trade(tradeValues, tradeAddress, vArray, rsArray, {from: account, gas: 9000000});
-	 //await instance.trade(account, v, r, s,  {from: account, gas: 9000000});
-	 await instance.trade(tradeValues, account, v, r, s,  {from: account, gas: 9000000});
+	console.log(call.request);
+	await instance.trade(tradeValues, AddrSell, v, r, s,  {from: account, gas: 9000000});
+
 
 	var event = await instance.getErrCode();
 
@@ -148,12 +148,32 @@ async function trade() {
 		}
 	})
 
+	/*
 	event = await instance.getHash();
 	event.watch(function(err, rst){
 		if (!err){
 			console.log(rst.args.hash);
 		}
 	})
+	*/
+	var addrSell;
+	event = await instance.getAddrSell();
+	event.watch(async function(err, rst){
+		if(!err){
+			console.log("用户地址%s",rst.args.addr);
+			addrSell = rst.args.addr;
+			var nonceSell = await instance.get_Nonce(addrSell);
+			console.log("nonceSell1 = %d", nonceSell.c[0]);
+		}
+	})
+	event = await instance.getNonceSell();
+	event.watch(function(err, rst){
+		if(!err){
+			console.log("nonceSell = %d",rst.args.nonceSell);
+		}
+	})
+
+
 
 }
 main();

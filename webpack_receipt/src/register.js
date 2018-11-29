@@ -8,8 +8,11 @@ var info = {
 	PassWord:		"",
 	PublicKey:		""
 };
-
-var accounts = web3.eth.accounts;
+var accounts;
+async function start(){
+	accounts = await web3.eth.getAccounts();
+	submitInfo();
+}
 
 function submitInfo()
 {
@@ -17,6 +20,7 @@ function submitInfo()
 		info.UserName = $("#account_in").val();
 		info.PassWord	= $("#password_in").val();
 		info.PublicKey = accounts[0];
+		console.log("PublicKey = %s", info.PublicKey);
 		console.log(info);
 		console.log(JSON.stringify(info));
 		$("#json_p").html(JSON.stringify(info));
@@ -51,6 +55,6 @@ window.addEventListener('load', function(){
 		window.web3 = new Web3(new Web3.providers.HttpProvider("http://192.168.22.247:8546"));
 	}
 	
-	submitInfo();
+	start();
 });
 

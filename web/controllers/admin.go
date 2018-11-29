@@ -137,3 +137,46 @@ func getUserAddr(userId int) string {
 	o.QueryTable("user").Filter("user_id", userId).One(&userInfo) //查询用户信息
 	return userInfo.PublicKey
 }
+
+//处理摘牌交易
+func (this *AdminController) Trade() {
+	this.TplName = "admin.html"
+
+	var orderSell models.OrderSell
+	o.QueryTable("order_sell").Filter("id", 1).One(&orderSell)
+	if orderSell.Id == 0 {
+		fmt.Printf("查询数据库失败，%d 订单不存在\n", 1)
+		return
+	}
+
+	//构建消息对象
+	var req pb.TradeReq
+	req.ReceiptId = int64(orderSell.ReceiptId)
+	req.Price = int64(orderSell.Price)
+	req.QtySell = int64(orderSell.QtySell)
+	req.NonceSell = int64(orderSell.NonceSell)
+	req.SigSell = orderSell.SigSell
+	req.AddrSell = orderSell.AddrSell
+	//调用智能合约-建立连接
+	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	if err != nil {
+		fmt.Printf("admin.go grpc客户端连接失败！ err: %v\n", err)
+	}
+
+	defer conn.Close()
+
+	client := pb.NewRPCServiceClient(conn)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	rst, err := client.Trade(ctx, &req) //调用智能合约，为用户添加仓单
+
+	if err != nil {
+		fmt.Printf("admin.go 客户端调用rpc执行失败！err: %v\n", err)
+		return
+	}
+
+	fmt.Printf("rpc客户端调用成功。返回结果：%s\n", rst.RstDetails)
+	fmt.Printf("<---------------------------->\n")
+}

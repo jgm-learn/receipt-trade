@@ -97,6 +97,13 @@ function addUserFunds(){
 		});
 	});
 }
+
+function Trade(){
+	$("#bt_trade").on('click', function(){
+		$.get("http://222.22.64.80:8081/admin/trade");	
+	})
+}
+
 window.addEventListener('load', function(){
 	if (typeof web3 != 'undefined'){
 		console.log("Using MetaMask 3.");
@@ -107,4 +114,5 @@ window.addEventListener('load', function(){
 	addReceiptInfo();
 	addReceiptQty();
 	addUserFunds();
+	Trade();
 });

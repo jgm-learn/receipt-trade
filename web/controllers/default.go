@@ -33,6 +33,7 @@ func (c *MainController) Register() {
 
 	body := c.Ctx.Input.RequestBody //获取json的二进制数据
 
+	fmt.Println(string(body))
 	//反序列化，并存入user
 	if err := json.Unmarshal(body, &user); err != nil {
 		fmt.Println(err.Error())

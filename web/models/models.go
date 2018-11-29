@@ -11,6 +11,7 @@ type User struct {
 	UserName  string
 	PassWord  string
 	PublicKey string
+	Nonce     int
 }
 
 //仓单
@@ -41,6 +42,24 @@ type UserFunds struct {
 	FrozenFunds    int //冻结资金
 }
 
+//用户nonce表
+type UserNonce struct {
+	UserId int `orm:"PK"`
+	nonce  int
+}
+
+//卖方订单表
+type OrderSell struct {
+	Id        int
+	UserId    int
+	ReceiptId int
+	Price     int
+	QtySell   int
+	NonceSell int
+	SigSell   string
+	AddrSell  string
+}
+
 var o orm.Ormer //定义Ormer接口变量
 
 func init() {
@@ -48,7 +67,8 @@ func init() {
 	orm.RegisterDataBase("default", "mysql", "root:root@/receipt_trade?charset=utf8", 30)
 	//注册声明的model
 	//orm.RegisterModel(new(User), new(Receipt), new(UserReceipt), new(UserFunds))
-	orm.RegisterModel(new(User), new(Receipt), new(UserReceipt), new(UserFunds))
+	orm.RegisterModel(new(User), new(Receipt), new(UserReceipt), new(UserFunds),
+		new(UserNonce), new(OrderSell))
 	//创建表
 	orm.RunSyncdb("default", false, true)
 
@@ -87,5 +107,23 @@ func (userFus UserFunds) Insert() {
 		fmt.Printf("UserFunds 插入数据库 id = %d\n", id)
 	} else {
 		fmt.Printf("UserFunds 插入数据库失败err: %v\n", err)
+	}
+}
+
+func (userNonce UserNonce) Insert() {
+	id, err := o.Insert(&userNonce)
+	if err == nil {
+		fmt.Printf("UserNonce 插入数据库 id = %d\n", id)
+	} else {
+		fmt.Printf("UserNonce 插入数据库失败err: %v\n", err)
+	}
+}
+
+func (orderSell OrderSell) Insert() {
+	id, err := o.Insert(&orderSell)
+	if err == nil {
+		fmt.Printf("OrderSell 插入数据库 id = %d\n", id)
+	} else {
+		fmt.Printf("OrderSell 插入数据库失败err: %v\n", err)
 	}
 }

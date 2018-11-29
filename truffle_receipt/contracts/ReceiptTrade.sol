@@ -16,6 +16,8 @@ contract ReceiptTrade {
 
 	mapping(address => Receipt[]) 	userReceipt;
 	mapping(address => Funds)		userFunds;
+	mapping(address => uint256) 	userNonce;
+	address userSell;
 
 	int _a;
 
@@ -55,9 +57,23 @@ contract ReceiptTrade {
 
 	event getErrCode(int errCode);
 	event getHash(bytes32 hash);
+	event getAddrSell(address addr);
+	event getNonceSell(uint256 nonceSell);
 	//function trade(uint[6] tradeValues, address[2] tradeAddress, uint8[2] v, bytes32[4]rs) public  {
 	//function trade(address addr, uint8 v, bytes32 r, bytes32 s){
-	function trade(uint tradeValues, address addr, uint8 v, bytes32 r, bytes32 s){
+
+	function setNonce(uint256 nonce){
+		userNonce[msg.sender] = nonce;
+	}
+
+	function get_Nonce(address addr) public view returns(uint256){
+		return userNonce[addr];
+	}
+	function getNonce() public view returns(uint256){
+		return userNonce[msg.sender];
+	}
+
+	function trade(uint256[4] tradeValues, address addr, uint8 v, bytes32 r, bytes32 s){
 		/*
 		   tradeValues
 		   	[0] receiptId
@@ -70,14 +86,15 @@ contract ReceiptTrade {
 		   	[0] addressSell
 			[1] addressBuy
 		*/
-
-	   //bytes32 orderHash = sha3(tradeValues[0], tradeValues[1], tradeValues[2], tradeValues[3]);
-	   //bytes32 orderHash = sha3("11061");
-	   bytes32 orderHash = sha3(uint256(1),uint256(16));
+	   bytes32 orderHash = sha3(tradeValues[0], tradeValues[1], tradeValues[2], tradeValues[3]);
 	   getHash(orderHash);
 	   bytes memory prefix = "\x19Ethereum Signed Message:\n32";
 	   bytes32 hash = sha3(prefix, orderHash);
-	   if ( ecrecover(hash, v, r, s) != addr)
+	   address addrSell = ecrecover(orderHash, v, r, s);
+	   getAddrSell(addrSell);
+	   userNonce[addrSell] = userNonce[addrSell] + 1;
+	   getNonceSell(userNonce[addrSell]);
+	   if ( ecrecover(orderHash, v, r, s) != addr)
 		   getErrCode(25);
 	   else 
 		   getErrCode(26);
