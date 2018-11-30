@@ -153,8 +153,10 @@ function listTrade(){
 				type:			'post',
 				url:			"http://222.22.64.80:8081/user/listTrade",
 				data:			JSON.stringify(orderSell),
+				dataType:		"json",
 				contentType:	"application/json",
 				success:		function(data, state, xhr){
+					alert(data.Reply)
 					console.log("orderSell 发送成功");
 					console.log(state);
 				},

@@ -45,6 +45,7 @@ func (this *AdminController) AddUserReceipt() {
 	fmt.Printf("前端传来数据如下：\n")
 	fmt.Println(string(body))
 	if err := json.Unmarshal(body, &userReceipt); err == nil {
+		userReceipt.QtyAvailable = userReceipt.QtyTotal
 		userReceipt.Insert() //写入数据库
 	} else {
 		fmt.Println("json Unmarshal 出错：")
@@ -76,7 +77,7 @@ func (this *AdminController) AddUserReceipt() {
 	var request pb.IstRctRequest
 	request.UserAddr = userAddr
 	request.ReceiptId = int64(userReceipt.ReceiptId)
-	request.TotalQty = int64(userReceipt.TotalQuantity)
+	request.TotalQty = int64(userReceipt.QtyTotal)
 	rst, err := client.InsertUserReceipt(ctx, &request) //调用智能合约，为用户添加仓单
 
 	if err != nil {

@@ -100,27 +100,81 @@ func (this *UserController) GetReceipt() {
 }
 
 func (this *UserController) ListTrade() {
+	var webReply models.WebReply
+
 	fmt.Printf("<---------------------------->\n")
 	fmt.Printf("user.go ListTrade() 挂牌执行输出如下：\n")
-	this.TplName = "user.html"
-	var orderSell models.OrderSell //用户仓单结构体
-
-	body := this.Ctx.Input.RequestBody //获取http数据
+	//接收前端传来的订单数据
+	var orderSell models.OrderSell     // OrderSell: Id, UserId, ReceiptId, Price, QtySell, NonceSell, SigSell, AddrSell
+	var market models.Market           // Market:	MarketId, ReceiptId, Price, QtySell, QtyDeal, QtyRemain
+	body := this.Ctx.Input.RequestBody //body: UserId, ReceiptId, Price, QtySell, NonceSell, SigSell, AddrSell
 	fmt.Printf("前端传来数据如下：\n")
 	fmt.Println(string(body))
-	if err := json.Unmarshal(body, &orderSell); err == nil {
-		orderSell.Insert() //写入数据库
-	} else {
+	if err := json.Unmarshal(body, &orderSell); err != nil {
 		fmt.Println("json Unmarshal 出错：")
 		fmt.Println(err)
+		webReply.Reply = "挂牌失败：json Unmarshal 出错 "
+		this.Data["json"] = &webReply
+		this.ServeJSON()
+		return
+	}
+	market.ReceiptId = orderSell.ReceiptId
+	market.Price = orderSell.Price
+	market.QtySell = orderSell.QtySell
+	market.QtyRemain = orderSell.QtySell
+
+	//查询用户的可用仓单数量，判断用户仓单数量是否足够
+	var userReceipt models.UserReceipt
+	err := o.QueryTable("UserReceipt").Filter("UserId", orderSell.UserId).Filter("ReceiptId", orderSell.ReceiptId).One(&userReceipt)
+	if err == orm.ErrNoRows {
+		fmt.Println("查询不到")
+		webReply.Reply = "挂牌失败：该用户没有该仓单"
+		this.Data["json"] = &webReply
+		this.ServeJSON()
+		return
+	} else if err == orm.ErrMissPK {
+		fmt.Println("找不到主键")
+		return
 	}
 
-	num, err := o.QueryTable("user").Filter("user_id", orderSell.UserId).Update(orm.Params{
+	fmt.Println("userReceipt:")
+	fmt.Println(userReceipt)
+	if orderSell.QtySell > userReceipt.QtyAvailable {
+		fmt.Println("用户的可用仓单数量不足，无法挂牌")
+		webReply.Reply = "挂牌失败：仓单数量不足"
+		this.Data["json"] = &webReply
+		this.ServeJSON()
+		return
+	}
+
+	//冻结仓单，更新user_receipt表
+	userReceipt.QtyAvailable = userReceipt.QtyAvailable - orderSell.QtySell
+	userReceipt.QtyFrozen = orderSell.QtySell
+	num, err := o.QueryTable("user_receipt").Filter("id", userReceipt.Id).Update(orm.Params{
+		"qty_available": userReceipt.QtyAvailable,
+		"qty_frozen":    userReceipt.QtyFrozen,
+	})
+	if err == nil {
+		fmt.Printf("更新user_receipt表 qty_available,qty_frozen 字段成功 id = %d\n", num)
+	} else {
+		fmt.Printf("更新user_receipt表 qty_available,qty_frozen 字字段失败 %v", err)
+	}
+
+	//将订单数据写入order_sell market表
+	orderSell.Insert()
+	market.Insert()
+
+	//更新user表的nonce字段
+	num, err = o.QueryTable("user").Filter("user_id", orderSell.UserId).Update(orm.Params{
 		"nonce": orderSell.NonceSell})
 	if err == nil {
 		fmt.Printf("更新user表 nonce字段成功 id = %d\n", num)
 	} else {
 		fmt.Printf("更新user表 nonce字段失败 %v", err)
 	}
+
+	webReply.Reply = "挂牌成功"
+	this.Data["json"] = &webReply
+	this.ServeJSON()
 	fmt.Printf("<---------------------------->\n")
 }

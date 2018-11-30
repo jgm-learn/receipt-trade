@@ -26,12 +26,12 @@ type Receipt struct {
 
 //用户所拥有的仓单
 type UserReceipt struct {
-	Id                int //id 主键
-	UserId            int //用户id
-	ReceiptId         int //仓单编号
-	TotalQuantity     int //仓单总量
-	RemainingQuantity int //剩余数量
-	FrozenQuantity    int //冻结数量
+	Id           int //id 主键
+	UserId       int //用户id
+	ReceiptId    int //仓单编号
+	QtyTotal     int //仓单总量
+	QtyAvailable int //剩余数量
+	QtyFrozen    int //冻结数量
 }
 
 //资金表
@@ -40,12 +40,6 @@ type UserFunds struct {
 	TotalFunds     int //资金总量
 	RemainingFunds int //剩余资金
 	FrozenFunds    int //冻结资金
-}
-
-//用户nonce表
-type UserNonce struct {
-	UserId int `orm:"PK"`
-	nonce  int
 }
 
 //卖方订单表
@@ -60,15 +54,27 @@ type OrderSell struct {
 	AddrSell  string
 }
 
+//市场表
+type Market struct {
+	Id        int
+	ReceiptId int
+	Price     int
+	QtySell   int
+	QtyDeal   int
+	QtyRemain int
+}
+
+type WebReply struct {
+	Reply string
+}
+
 var o orm.Ormer //定义Ormer接口变量
 
 func init() {
 	//连接数据库
 	orm.RegisterDataBase("default", "mysql", "root:root@/receipt_trade?charset=utf8", 30)
 	//注册声明的model
-	//orm.RegisterModel(new(User), new(Receipt), new(UserReceipt), new(UserFunds))
-	orm.RegisterModel(new(User), new(Receipt), new(UserReceipt), new(UserFunds),
-		new(UserNonce), new(OrderSell))
+	orm.RegisterModel(new(User), new(Receipt), new(UserReceipt), new(UserFunds), new(OrderSell), new(Market))
 	//创建表
 	orm.RunSyncdb("default", false, true)
 
@@ -92,6 +98,13 @@ func (receipt Receipt) Insert() {
 		fmt.Printf("插入数据库失败err: %v\n", err)
 	}
 }
+
+func (userRct UserReceipt) TableUnique() [][]string {
+	return [][]string{
+		[]string{"user_id", "receipt_id"},
+	}
+}
+
 func (userRct UserReceipt) Insert() {
 	id, err := o.Insert(&userRct)
 	if err == nil {
@@ -110,20 +123,20 @@ func (userFus UserFunds) Insert() {
 	}
 }
 
-func (userNonce UserNonce) Insert() {
-	id, err := o.Insert(&userNonce)
-	if err == nil {
-		fmt.Printf("UserNonce 插入数据库 id = %d\n", id)
-	} else {
-		fmt.Printf("UserNonce 插入数据库失败err: %v\n", err)
-	}
-}
-
 func (orderSell OrderSell) Insert() {
 	id, err := o.Insert(&orderSell)
 	if err == nil {
 		fmt.Printf("OrderSell 插入数据库 id = %d\n", id)
 	} else {
 		fmt.Printf("OrderSell 插入数据库失败err: %v\n", err)
+	}
+}
+
+func (market Market) Insert() {
+	id, err := o.Insert(&market)
+	if err == nil {
+		fmt.Printf("Market 插入数据库 id = %d\n", id)
+	} else {
+		fmt.Printf("Market 插入数据库失败err: %v\n", err)
 	}
 }

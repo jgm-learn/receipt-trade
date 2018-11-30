@@ -13,7 +13,7 @@ var receipt = {
 var userReceipt = {
 	UserId:			1,
 	ReceiptId:		1,
-	TotalQuantity:	1
+	QtyTotal:		1
 }
 //用户资金数据
 var userFunds = {
@@ -52,9 +52,9 @@ function addReceiptInfo(){
 function addReceiptQty(){
 	//获取页面数据
 	$("#bt_addReceiptQty").on('click', function(){
-		userReceipt.UserId = parseInt($("#userId1").val());
-		userReceipt.ReceiptId = parseInt($("#receiptId").val());
-		userReceipt.TotalQuantity 	= parseInt($("#totalQty").val());
+		userReceipt.UserId 		= 	parseInt($("#userId1").val());
+		userReceipt.ReceiptId 	= 	parseInt($("#receiptId").val());
+		userReceipt.QtyTotal 	= 	parseInt($("#totalQty").val());
 		//序列化并发送
 		$.ajax({
 			type:			'post',
