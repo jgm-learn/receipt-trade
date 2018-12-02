@@ -18,5 +18,11 @@ module.exports = [{
 		filename: 'user.js',
 		path: '/home/jgm/goApp/src/receipt-trade/web/static/js'
 	}
+},{
+	entry: './src/market.js',
+	output: {
+		filename: 'market.js',
+		path: '/home/jgm/goApp/src/receipt-trade/web/static/js'
+	}
 }]
 
