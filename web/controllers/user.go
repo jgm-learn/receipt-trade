@@ -101,12 +101,12 @@ func (this *UserController) GetReceipt() {
 
 func (this *UserController) ListTrade() {
 	var webReply models.WebReply
+	var orderSell models.OrderSell // OrderSell: Id, UserId, ReceiptId, Price, QtySell, NonceSell, SigSell, AddrSell
+	var list models.List           // List:	ListId, UserId, ReceiptId, Price, QtySell, QtyDeal, QtyRemain
 
 	fmt.Printf("<---------------------------->\n")
 	fmt.Printf("user.go ListTrade() 挂牌执行输出如下：\n")
 	//接收前端传来的订单数据
-	var orderSell models.OrderSell     // OrderSell: Id, UserId, ReceiptId, Price, QtySell, NonceSell, SigSell, AddrSell
-	var market models.Market           // Market:	MarketId, ReceiptId, Price, QtySell, QtyDeal, QtyRemain
 	body := this.Ctx.Input.RequestBody //body: UserId, ReceiptId, Price, QtySell, NonceSell, SigSell, AddrSell
 	fmt.Printf("前端传来数据如下：\n")
 	fmt.Println(string(body))
@@ -118,10 +118,11 @@ func (this *UserController) ListTrade() {
 		this.ServeJSON()
 		return
 	}
-	market.ReceiptId = orderSell.ReceiptId
-	market.Price = orderSell.Price
-	market.QtySell = orderSell.QtySell
-	market.QtyRemain = orderSell.QtySell
+	list.UserId = orderSell.UserId
+	list.ReceiptId = orderSell.ReceiptId
+	list.Price = orderSell.Price
+	list.QtySell = orderSell.QtySell
+	list.QtyRemain = orderSell.QtySell
 
 	//查询用户的可用仓单数量，判断用户仓单数量是否足够
 	var userReceipt models.UserReceipt
@@ -148,8 +149,8 @@ func (this *UserController) ListTrade() {
 	}
 
 	//冻结仓单，更新user_receipt表
-	userReceipt.QtyAvailable = userReceipt.QtyAvailable - orderSell.QtySell
-	userReceipt.QtyFrozen = orderSell.QtySell
+	userReceipt.QtyAvailable -= orderSell.QtySell
+	userReceipt.QtyFrozen += orderSell.QtySell
 	num, err := o.QueryTable("user_receipt").Filter("id", userReceipt.Id).Update(orm.Params{
 		"qty_available": userReceipt.QtyAvailable,
 		"qty_frozen":    userReceipt.QtyFrozen,
@@ -161,8 +162,9 @@ func (this *UserController) ListTrade() {
 	}
 
 	//将订单数据写入order_sell market表
-	orderSell.Insert()
-	market.Insert()
+	listId := orderSell.Insert()
+	list.ListId = int(listId)
+	list.Insert()
 
 	//更新user表的nonce字段
 	num, err = o.QueryTable("user").Filter("user_id", orderSell.UserId).Update(orm.Params{

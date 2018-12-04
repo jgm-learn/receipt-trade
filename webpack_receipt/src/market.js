@@ -5,16 +5,16 @@ import {default as Web3} from 'web3'
 var account;
 var userId;
 
-/*
-function receiptList(listId, receiptId, price, qtySell, qtyDeal, qtyRemain){
-	this.listId 	=	listId;
-	this.receiptId 	=	receiptId;
-	this.price 		=	price;
-	this.qtySell 	=	qtySell;
-	this.qtyDeal 	= 	qtyDeal;
-	this.qtyRemain  =   qtyRemain;
+var orderBuy = {
+	UserId:		0,
+	ListId:		0,
+	ReceiptId: 	0,
+	QtyBuy:		0,
+	NonceBuy:   0,
+	SigBuy:		"",
+	AddrBuy:	""
 }
-*/
+
 
 function start(){
 	web3.eth.getAccounts(function(err, rst){
@@ -22,6 +22,7 @@ function start(){
 		$("#userAddr")[0].innerHTML = account;
 		getUserId();
 		getReceiptList();
+		delist()
 	})
 }
 
@@ -39,7 +40,7 @@ function getUserId(){
 function getReceiptList(){
 	$.getJSON("http://222.22.64.80:8081/market/getReceiptList", function(data){
 		var colums = [	
-					{title: "挂牌编号",	name: "Id"},
+					{title: "挂牌编号",	name: "ListId"},
 					{title: "仓单编号",	name: "ReceiptId"},
 					{title: "价格",		name: "Price"},
 					{title: "挂牌量",	name: "QtySell"},
@@ -75,6 +76,41 @@ function getReceiptList(){
 		
 }
 
+//摘牌
+function delist(){
+	$("#bt_delist").on("click", function(){
+		orderBuy.UserId 	=	userId
+		orderBuy.ListId 	=	parseInt($("#listId").val())
+		orderBuy.ReceiptId	=	parseInt($("#receiptId").val())
+		orderBuy.QtyBuy 	=	parseInt($("#qtyBuy").val())
+		$.getJSON("http://222.22.64.80:8081/user/getUserNonce", {userAddr: account}, async function(data){
+			var nonceLast = data.Nonce;
+			console.log("nonceLast: %d", nonceLast)
+			orderBuy.NonceBuy 	= 	nonceLast + 1;
+			var orderBuyHash	= 	await web3.utils.soliditySha3(orderBuy.ReceiptId, orderBuy.QtyBuy, orderBuy.NonceBuy);
+			console.log("orderBuyHash", orderBuyHash);
+			orderBuy.SigBuy 	= 	await web3.eth.sign(orderBuyHash, account)
+			console.log("SigBuy", orderBuy.SigBuy);
+			orderBuy.AddrBuy= account;
+			//序列化并发送
+			$.ajax({
+				type:			'post',
+				url:			"http://222.22.64.80:8081/market/delist",
+				data:			JSON.stringify(orderBuy),
+				dataType:		"json",
+				contentType:	"application/json",
+				success:		function(data, state, xhr){
+					alert(data.Reply)
+					console.log("orderBuy发送成功");
+				},
+				error:			function(xhr, state, error){
+					console.log("orderBuy 发送失败");
+					console.log(error.toString());
+				}
+			});
+		});
+	})
+}
 
 window.addEventListener('load', function(){
 	if (typeof web3 != 'undefined'){

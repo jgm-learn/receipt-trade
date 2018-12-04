@@ -24,4 +24,5 @@ func init() {
 
 	beego.Router("/market", &controllers.MarketController{})
 	beego.Router("/market/getReceiptList", &controllers.MarketController{}, "get:GetReceiptList")
+	beego.Router("/market/delist", &controllers.MarketController{}, "post:Delist")
 }

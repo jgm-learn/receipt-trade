@@ -98,7 +98,8 @@ func (this *AdminController) AddUserFunds() {
 	fmt.Println(string(body))          //打印接收到的数据
 	if err := json.Unmarshal(body, &userFunds); err == nil {
 		fmt.Println(userFunds) //打印反序列化后的结果
-		userFunds.Insert()     //插入数据库
+		userFunds.AvailableFunds = userFunds.TotalFunds
+		userFunds.Insert() //插入数据库
 	} else {
 		fmt.Println("json Unmarshal 出错：")
 		fmt.Println(err)

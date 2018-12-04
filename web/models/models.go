@@ -38,7 +38,7 @@ type UserReceipt struct {
 type UserFunds struct {
 	UserId         int `orm:"PK"` //用户id
 	TotalFunds     int //资金总量
-	RemainingFunds int //剩余资金
+	AvailableFunds int //可用资金
 	FrozenFunds    int //冻结资金
 }
 
@@ -55,13 +55,26 @@ type OrderSell struct {
 }
 
 //市场表
-type Market struct {
-	Id        int
+type List struct {
+	ListId    int `orm:"PK"`
+	UserId    int
 	ReceiptId int
 	Price     int
 	QtySell   int
 	QtyDeal   int
 	QtyRemain int
+}
+
+type OrderBuy struct {
+	Id        int
+	UserId    int
+	ListId    int
+	ReceiptId int
+	Price     int
+	QtyBuy    int
+	NonceBuy  int
+	SigBuy    string
+	AddrBuy   string
 }
 
 type WebReply struct {
@@ -74,7 +87,7 @@ func init() {
 	//连接数据库
 	orm.RegisterDataBase("default", "mysql", "root:root@/receipt_trade?charset=utf8", 30)
 	//注册声明的model
-	orm.RegisterModel(new(User), new(Receipt), new(UserReceipt), new(UserFunds), new(OrderSell), new(Market))
+	orm.RegisterModel(new(User), new(Receipt), new(UserReceipt), new(UserFunds), new(OrderSell), new(List))
 	//创建表
 	orm.RunSyncdb("default", false, true)
 
@@ -123,17 +136,18 @@ func (userFus UserFunds) Insert() {
 	}
 }
 
-func (orderSell OrderSell) Insert() {
+func (orderSell OrderSell) Insert() int64 {
 	id, err := o.Insert(&orderSell)
 	if err == nil {
 		fmt.Printf("OrderSell 插入数据库 id = %d\n", id)
 	} else {
 		fmt.Printf("OrderSell 插入数据库失败err: %v\n", err)
 	}
+	return id
 }
 
-func (market Market) Insert() {
-	id, err := o.Insert(&market)
+func (list List) Insert() {
+	id, err := o.Insert(&list)
 	if err == nil {
 		fmt.Printf("Market 插入数据库 id = %d\n", id)
 	} else {
