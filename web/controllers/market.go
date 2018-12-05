@@ -93,13 +93,20 @@ func (this *MarketController) Delist() {
 	}
 
 	//更新卖方user_receipt表
+	/*
+		err = o.QueryTable("user_receipt").Filter("user_id", list.UserId).Filter("receipt_id", list.ReceiptId).One(&userReceipt)
+		userReceipt.QtyTotal -= qtyBuy
+		userReceipt.QtyFrozen -= qtyBuy
+	*/
+
 	_, err = o.QueryTable("user_receipt").Filter("user_id", list.UserId).Filter("receipt_id", list.ReceiptId).Update(orm.Params{
-		"qty_total":     orm.ColValue(orm.ColMinus, qtyBuy),
-		"qty_available": orm.ColValue(orm.ColMinus, qtyBuy),
-		"qty_frozen":    orm.ColValue(orm.ColMinus, qtyBuy),
+		//"qty_total":  userReceipt.QtyTotal,
+		//"qty_frozen": userReceipt.QtyFrozen,
+		"qty_total":  orm.ColValue(orm.ColMinus, qtyBuy),
+		"qty_frozen": orm.ColValue(orm.ColMinus, qtyBuy),
 	})
 	if err != nil {
-		fmt.Printf("更新user_receipt表 qty_total,qty_available,qty_frozen字段失败 %v\n", err)
+		fmt.Printf("更新user_receipt表 qty_total,qty_frozen字段失败 %v\n", err)
 		return
 	}
 
@@ -113,7 +120,7 @@ func (this *MarketController) Delist() {
 		userReceipt.QtyAvailable = qtyBuy
 		userReceipt.Insert()
 	} else {
-		_, err = o.QueryTable("user_receipt").Filter("receipt_id", orderBuy.ReceiptId).Update(orm.Params{
+		_, err = o.QueryTable("user_receipt").Filter("user_id", orderBuy.UserId).Filter("receipt_id", orderBuy.ReceiptId).Update(orm.Params{
 			"qty_total":     orm.ColValue(orm.ColAdd, qtyBuy),
 			"qty_available": orm.ColValue(orm.ColAdd, qtyBuy),
 		})
