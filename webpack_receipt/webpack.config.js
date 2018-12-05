@@ -23,6 +23,13 @@ module.exports = [{
 	output: {
 		filename: 'market.js',
 		path: '/home/jgm/goApp/src/receipt-trade/web/static/js'
-	}
-}]
+	} 
+},{
+	entry: './src/allData.js',
+	output: {
+		filename: 'allData.js',
+		path: '/home/jgm/goApp/src/receipt-trade/web/static/js'
+	} 
+}
+]
 

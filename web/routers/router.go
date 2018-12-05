@@ -25,4 +25,10 @@ func init() {
 	beego.Router("/market", &controllers.MarketController{})
 	beego.Router("/market/getReceiptList", &controllers.MarketController{}, "get:GetReceiptList")
 	beego.Router("/market/delist", &controllers.MarketController{}, "post:Delist")
+
+	beego.Router("/allData", &controllers.DataController{})
+	beego.Router("/allData/getUser", &controllers.DataController{}, "get:GetUser")
+	beego.Router("/allData/getFunds", &controllers.DataController{}, "get:GetFunds")
+	beego.Router("/allData/getReceipt", &controllers.DataController{}, "get:GetReceipt")
+	beego.Router("/allData/getOrderSell", &controllers.DataController{}, "get:GetOrderSell")
 }
