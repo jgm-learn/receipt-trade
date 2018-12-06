@@ -65,28 +65,29 @@ func (this *MarketController) Delist() {
 		return
 	}
 
+	//查询挂单的具体信息,添加排他锁
 	err := oTX.Raw("select * from list where list_id = ? for update", orderBuy.ListId).QueryRow(&list)
 	if err != nil {
 		fmt.Println("阻塞中，正在排队", err)
+		oTX.Rollback()
 		webReply.Reply = "摘牌失败：系统太过繁忙，请稍后重试"
 		this.Data["json"] = &webReply
 		this.ServeJSON()
 		return
 	}
-	/*
-		//查询挂单的具体信息
-		err := o.QueryTable("list").Filter("list_id", orderBuy.ListId).One(&list)
-		if err == orm.ErrNoRows {
-			fmt.Println("查询挂单编号为%d的挂单", orderBuy.ListId)
-			webReply.Reply = "摘牌失败：该挂单不存在"
-			this.Data["json"] = &webReply
-			this.ServeJSON()
-			return
-		}
-	*/
 
+	//判断是否买卖双方为同一用户
+	if list.UserId == orderBuy.UserId {
+		fmt.Println("摘牌失败：买卖双方为同一用户")
+		oTX.Rollback()
+		webReply.Reply = "摘牌失败：不能摘自己的挂单"
+		this.Data["json"] = &webReply
+		this.ServeJSON()
+		return
+	}
 	//判断可售仓单数量是否足够
 	if list.QtyRemain < orderBuy.QtyBuy {
+		oTX.Rollback()
 		webReply.Reply = "摘牌失败：可售仓单数量不足"
 		this.Data["json"] = &webReply
 		this.ServeJSON()
@@ -96,6 +97,7 @@ func (this *MarketController) Delist() {
 	payment := orderBuy.QtyBuy * list.Price //应付款
 	oTX.QueryTable("user_funds").Filter("user_id", orderBuy.UserId).One(&userFunds)
 	if userFunds.AvailableFunds < payment {
+		oTX.Rollback()
 		webReply.Reply = "摘牌失败：资金不足"
 		this.Data["json"] = &webReply
 		this.ServeJSON()
@@ -115,15 +117,7 @@ func (this *MarketController) Delist() {
 	}
 
 	//更新卖方user_receipt表
-	/*
-		err = o.QueryTable("user_receipt").Filter("user_id", list.UserId).Filter("receipt_id", list.ReceiptId).One(&userReceipt)
-		userReceipt.QtyTotal -= qtyBuy
-		userReceipt.QtyFrozen -= qtyBuy
-	*/
-
 	_, err = oTX.QueryTable("user_receipt").Filter("user_id", list.UserId).Filter("receipt_id", list.ReceiptId).Update(orm.Params{
-		//"qty_total":  userReceipt.QtyTotal,
-		//"qty_frozen": userReceipt.QtyFrozen,
 		"qty_total":  orm.ColValue(orm.ColMinus, qtyBuy),
 		"qty_frozen": orm.ColValue(orm.ColMinus, qtyBuy),
 	})
