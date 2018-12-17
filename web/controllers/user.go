@@ -7,6 +7,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	"receipt-trade/web/models"
+	"strconv"
 )
 
 type UserController struct {
@@ -31,10 +32,19 @@ func (this *UserController) GetUserId() {
 	this.ServeJSON()
 }
 
+type OrderSellAndNonce struct {
+	OrderSell models.OrderSell
+	Nonce     int
+}
+
+//获取nonce,价格，卖方账户地址
 func (this *UserController) GetUserNonce() {
+	var orderSell models.OrderSell
+	var data OrderSellAndNonce
 	user := new(models.User)
 	userAddr := this.GetString("userAddr")
 	user.PublicKey = userAddr
+	listId := this.GetString("listId")
 
 	err := o.Read(user, "PublicKey") //根据公钥查询user
 	if err == orm.ErrNoRows {
@@ -42,53 +52,36 @@ func (this *UserController) GetUserNonce() {
 	} else if err == orm.ErrMissPK {
 		fmt.Println("找不到主键")
 	}
-	this.Data["json"] = &user
+
+	err = o.QueryTable("order_sell").Filter("id", listId).One(&orderSell)
+	if err == orm.ErrNoRows {
+		fmt.Printf("没有找到挂单号为%d的挂单", listId)
+	}
+
+	data.OrderSell = orderSell
+	data.Nonce = user.Nonce
+
+	fmt.Println("orderSell: ", orderSell)
+	fmt.Println("data: ", data)
+	this.Data["json"] = &data
 	this.ServeJSON()
 }
 
 func (this *UserController) GetFunds() {
-	//orm.RegisterDataBase("default", "mysql", "root:root@/receipt_trade?charset=utf8", 30)
-	//o := orm.NewOrm()
-
-	user := new(models.User)
-	pK := this.GetString("pucKey")
-	user.PublicKey = pK
-
-	err := o.Read(user, "PublicKey") //根据公钥查询user
-	if err == orm.ErrNoRows {
-		fmt.Println("查询不到")
-	} else if err == orm.ErrMissPK {
-		fmt.Println("找不到主键")
-	}
-	fmt.Println(user)
+	userId := this.GetString("userId")
 
 	userFunds := new(models.UserFunds)
-	userFunds.UserId = user.UserId
+	userFunds.UserId, _ = strconv.Atoi(userId)
 	o.Read(userFunds) //根据用户id查询资金信息
-	fmt.Printf("%d\n", userFunds.TotalFunds)
 
 	this.Data["json"] = &userFunds
 	this.ServeJSON()
 }
 
 func (this *UserController) GetReceipt() {
-	//orm.RegisterDataBase("default", "mysql", "root:root@/receipt_trade?charset=utf8", 30) //连接数据库
-	//o := orm.NewOrm()
-
-	pK := this.GetString("pucKey")
-	user := new(models.User)
-	user.PublicKey = pK
-
-	err := o.Read(user, "PublicKey") //根据公钥查询user
-	if err == orm.ErrNoRows {
-		fmt.Println("查询不到")
-	} else if err == orm.ErrMissPK {
-		fmt.Println("找不到主键")
-	}
-	fmt.Printf("%s receipt:\n", user.UserName)
-
+	userId := this.GetString("userId")
 	var userReceipts []models.UserReceipt
-	_, err = o.QueryTable("UserReceipt").Filter("UserId", user.UserId).All(&userReceipts)
+	_, err := o.QueryTable("user_receipt").Filter("user_id", userId).All(&userReceipts)
 	if err == orm.ErrNoRows {
 		fmt.Println("查询不到")
 	} else if err == orm.ErrMissPK {
@@ -179,4 +172,72 @@ func (this *UserController) ListTrade() {
 	this.Data["json"] = &webReply
 	this.ServeJSON()
 	fmt.Printf("<---------------------------->\n")
+}
+
+//撤单
+func (this *UserController) Cancellation() {
+	var webReply models.WebReply
+	var list models.List
+
+	userId := this.GetString("userId")
+	listId := this.GetString("listId")
+
+	//事务处理
+	oTX := orm.NewOrm()
+	errs := oTX.Begin()
+	if errs != nil {
+		fmt.Println("o.Begin ", errs)
+		webReply.Reply = "摘牌失败：o.Begin()出错 "
+		this.Data["json"] = &webReply
+		this.ServeJSON()
+		return
+	}
+
+	//查询挂单的具体信息,添加排他锁
+	err := oTX.Raw("select * from list where list_id = ? and user_id = ? for update", listId, userId).QueryRow(&list)
+	if err == orm.ErrNoRows {
+		fmt.Printf("Cancellation() 没有找到用户%d的%d号挂单\n", userId, listId)
+		webReply.Reply = "撤单失败：没有找到该挂单"
+		this.Data["json"] = &webReply
+		this.ServeJSON()
+		return
+	}
+	if err != nil {
+		fmt.Println("阻塞中，正在排队", err)
+		oTX.Rollback()
+		webReply.Reply = "撤单失败：系统太过繁忙，请稍后重试"
+		this.Data["json"] = &webReply
+		this.ServeJSON()
+		return
+	}
+
+	//解冻冻结的仓单
+	_, err = oTX.QueryTable("user_receipt").Filter("user_id", list.UserId).Filter("receipt_id", list.ReceiptId).Update(orm.Params{
+		"qty_available": orm.ColValue(orm.ColAdd, list.QtyRemain),
+		"qty_frozen":    orm.ColValue(orm.ColMinus, list.QtyRemain),
+	})
+	if err != nil {
+		fmt.Printf("更新user_receipt表 qty_available,qty_frozen字段失败 %v\n", err)
+		oTX.Rollback()
+		return
+	}
+
+	//提交事务
+	oTX.Commit()
+
+	//删除市场中的挂单
+	_, err = o.QueryTable("list").Filter("list_id", list.ListId).Delete()
+	if err != nil {
+		fmt.Printf("删除list表失败 err: %v \n listId = %d \n", err, list.ListId)
+		oTX.Rollback()
+		webReply.Reply = "撤单失败"
+		this.Data["json"] = &webReply
+		this.ServeJSON()
+		return
+	}
+
+	webReply.Reply = "撤单成功"
+	this.Data["json"] = &webReply
+	this.ServeJSON()
+	return
 }

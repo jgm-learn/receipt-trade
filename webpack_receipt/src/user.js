@@ -15,6 +15,12 @@ var userProperty = {
 	frozenFunds:	0
 }
 
+//Funds对象构造函数
+function Funds(totalFunds, availableFunds, frozenFunds){
+	this.totalFunds = totalFunds;
+	this.availableFunds = availableFunds;
+	this.frozenFunds  = frozenFunds;
+}
 //Receipt对象
 function Receipt(receiptId, totalQty, remainQty, frozenQty){
 	this.receiptId 	= 	receiptId;
@@ -39,90 +45,116 @@ async function start(){
 	web3.eth.getAccounts(function(err, rst){
 		account = rst[0]
 		$("#publicKey")[0].innerHTML = account
-		getUserId();
-		getFunds()
-		getReceipt()
-		setNonce();
-		listTrade();
+		getUserId(function(){
+			getFundsDB();
+			getFunds()
+			getReceipt()
+			getReceiptDB();
+			setNonce();
+			listTrade();
+			cancellation();
+		});
 	});
 }
 
 //获取userId
-function getUserId(){
+function getUserId(callback){
 	$.getJSON("http://222.22.64.80:8081/user/getUserId", {userAddr: account}, function(data){
 		userId = data.UserId;
 		$("#userId")[0].innerHTML = userId;
-	})
+		if (typeof callback == "function") {
+			callback()
+		}
+	});
+
 }
+
+//创建表格
+function createTable(tableId, row, data){
+	//创建标题
+		var table 	= 	document.getElementById(tableId)
+		var thead 	=	document.createElement("thead")
+		table.appendChild(thead)
+			var tr 		= document.createElement("tr")
+			thead.appendChild(tr)
+		var tbody	= document.createElement("tbody")
+		table.appendChild(tbody)
+		for( var i=0; i < row.length; i++){
+			var th = document.createElement("th")
+			tr.appendChild(th)
+			th.innerHTML = row[i].title
+		}
+
+		//将挂单数据填入表格
+		for (var i = 0; i < data.length; i++){
+			var tr = document.createElement("tr")
+			table.lastChild.appendChild(tr)
+			for(var j = 0; j < row.length; j++){
+				var td = document.createElement("td")
+				tr.appendChild(td)
+				td.innerHTML = data[i][row[j].name]
+			}
+	}
+}
+
 //从智能合约获取资金
 async function getFunds(){
 	//$.getJSON("http://222.22.64.80:8081/user/getFunds", publicKey, function(data){
 	var rst = await instance.getFunds(account);
-		var colums = [{title: "总资金"}, {title: "可用资金"}, {title: "冻结资金"}];
 
-		//构建表格
-		var table 	= 	document.getElementById("fundsTable")
-		var thead 	=	document.createElement("thead")
-		table.appendChild(thead)
-		var tr 		= document.createElement("tr")
-		thead.appendChild(tr)
-		var tbody	= document.createElement("tbody")
-		table.appendChild(tbody)
-		for( var i=0; i < colums.length; i++){
-			var th = document.createElement("th")
-			tr.appendChild(th)
-			th.innerHTML = colums[i].title
-		}
+		var row = [{title: "总资金", name: "totalFunds"},
+			{title: "可用资金", name: "availableFunds"},
+			{title: "冻结资金", name: "frozenFunds"}];
+	var myArray = new Array()
+	myArray[0] = new Funds(rst.c[0], 0, 0)
 
-	var tr = document.createElement("tr");
-	table.lastChild.appendChild(tr)
-	for(var j = 0; j < colums.length; j++){
-			var td = document.createElement("td")
-			tr.appendChild(td)
-			td.innerHTML = rst[j].c[0]
-	}
+	createTable("fundsTable", row, myArray)
 }
+
 
 //从智能合约获取仓单
 async function getReceipt(){
-	var colums = [	{title: "仓单编号",	name: "receiptId"},
+	var row = [	{title: "仓单编号",	name: "receiptId"},
 					{title: "仓单总量",	name: "totalQty"},
 					{title: "剩余量",	name: "remainQty"},
 					{title: "冻结量",	name: "frozenQty"}];	
-
-	var table 	= 	document.getElementById("simpleTable")
-	var thead 	=	document.createElement("thead")
-	table.appendChild(thead)
-		var tr 		= document.createElement("tr")
-		thead.appendChild(tr)
-	var tbody	= document.createElement("tbody")
-	table.appendChild(tbody)
-	for( var i=0; i < colums.length; i++){
-		var th = document.createElement("th")
-		tr.appendChild(th)
-		th.innerHTML = colums[i].title
-	}
-
 	//从智能合约中获取用户的所有仓单
 	var length = await instance.getReceiptArrayLength(account); //获取用户仓单的种类数量
 
 	var myArray = new Array();
 	for(var i = 0; i < length.c[0]; i++){
 		var rst = await instance.getReceipt(account, i);
-		myArray[i] = new Receipt(rst[0].c[0], rst[1].c[0], rst[2].c[0], rst[3].c[0]); 
+		myArray[i] = new Receipt(rst[0].c[0], rst[1].c[0],0,0); 
 	}
-	console.log(account);
+	console.log("account: ", account)
+	console.log("length", length.c[0]);
+	console.log("myArray", myArray);
 
-	//将数据填入表格
-	for (var i = 0; i < myArray.length; i++){
-		var tr = document.createElement("tr")
-		table.lastChild.appendChild(tr)
-		for(var j = 0; j < colums.length; j++){
-			var td = document.createElement("td")
-			tr.appendChild(td)
-			td.innerHTML = myArray[i][colums[j].name]
-		}
-	}
+	createTable("receiptTable", row, myArray)
+}
+//从数据库获取资金
+function getFundsDB (){
+	$.getJSON("http://222.22.64.80:8081/user/getFunds", {userId: userId}, function(data){
+		var row = [
+			{title:"总资金", 	name: "totalFunds"},
+			{title:"可用资金", 	name: "availableFunds"},
+			{title:"冻结资金", 	name: "frozenFunds"}];
+	var myArray = new Array()
+	myArray[0] = new Funds(data.TotalFunds, data.AvailableFunds, data.FrozenFunds)
+	createTable("fundsTableDB", row, myArray)
+	});
+}
+//从数据库获取仓单
+function getReceiptDB(){
+	$.getJSON("http://222.22.64.80:8081/user/getReceipt", {userId: userId}, function(data){
+	var row = [	{title: "仓单编号",	name: "ReceiptId"},
+					{title: "仓单总量",	name: "QtyTotal"},
+					{title: "剩余量",	name: "QtyAvailable"},
+					{title: "冻结量",	name: "QtyFrozen"}];	
+	var myArray = new Array()
+	myArray[0] = new Funds(data.TotalFunds, data.AvailableFunds, data.FrozenFunds)
+	createTable("receiptTableDB", row, data)
+	});
 }
 
 async function setNonce() {
@@ -141,9 +173,8 @@ function listTrade(){
 			var nonceLast = data.Nonce;
 			console.log("nonceLast: %d", nonceLast)
 			orderSell.NonceSell = nonceLast + 1;
-			var orderHash = await web3.utils.soliditySha3(orderSell.ReceiptId, orderSell.Price, orderSell.QtySell, orderSell.NonceSell);
-			console.log("orderHash");
-			console.log(orderHash);
+			var orderHash = await web3.utils.soliditySha3(orderSell.ReceiptId, orderSell.Price, orderSell.QtySell, orderSell.NonceSell, account);
+			console.log("orderHash: ", orderHash);
 			orderSell.SigSell = await web3.eth.sign(orderHash, account)
 			console.log("SigSell");
 			console.log(orderSell.SigSell);
@@ -167,6 +198,14 @@ function listTrade(){
 			});
 		});
 	});
+}
+
+//撤单
+function cancellation(){
+	$("#bt_cancellation").on('click', function(){
+		var listId = parseInt($("#listId").val());
+		$.post("http://222.22.64.80:8081/user/cancellation", { userId: userId, listId: listId}, function(data){alert(data.Reply);} )
+	})
 }
 
 window.addEventListener('load', function(){

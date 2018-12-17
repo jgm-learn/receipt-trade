@@ -6,7 +6,11 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	pb "receipt-trade/web/controllers/grpcPB"
 	"receipt-trade/web/models"
+	"time"
 )
 
 type MarketController struct {
@@ -95,6 +99,7 @@ func (this *MarketController) Delist() {
 	}
 	//判断买方是否有足够资金
 	payment := orderBuy.QtyBuy * list.Price //应付款
+	//ToDo fee := float64(payment) * feeRate       //手续费
 	oTX.QueryTable("user_funds").Filter("user_id", orderBuy.UserId).One(&userFunds)
 	if userFunds.AvailableFunds < payment {
 		oTX.Rollback()
@@ -113,6 +118,7 @@ func (this *MarketController) Delist() {
 	})
 	if err != nil {
 		fmt.Printf("更新user表 qty_deal,qty_remain字段失败 %v\n", err)
+		oTX.Rollback()
 		return
 	}
 
@@ -123,6 +129,7 @@ func (this *MarketController) Delist() {
 	})
 	if err != nil {
 		fmt.Printf("更新user_receipt表 qty_total,qty_frozen字段失败 %v\n", err)
+		oTX.Rollback()
 		return
 	}
 
@@ -149,6 +156,7 @@ func (this *MarketController) Delist() {
 	})
 	if err != nil {
 		fmt.Printf("更新user_funds表 total_funds,available_funds字段失败 %v\n", err)
+		oTX.Rollback()
 		return
 	}
 
@@ -159,14 +167,65 @@ func (this *MarketController) Delist() {
 	})
 	if err != nil {
 		fmt.Printf("更新user_funds表 total_funds,available_funds字段失败 %v\n", err)
+		oTX.Rollback()
 		return
 	}
 
 	//提交事务
 	oTX.Commit()
 
+	//调用智能合约
+	Trade(orderBuy, list.ListId)
+
 	webReply.Reply = "摘牌成功"
 	this.Data["json"] = &webReply
 	this.ServeJSON()
 	return
+}
+
+//调用智能合约处理摘牌交易
+func Trade(orderBuy models.OrderBuy, listId int) {
+	var orderSell models.OrderSell
+
+	o.QueryTable("order_sell").Filter("id", listId).One(&orderSell)
+	if orderSell.Id == 0 {
+		fmt.Printf("查询数据库失败，%d 订单不存在\n", 1)
+		return
+	}
+
+	//构建消息对象
+	var req pb.TradeReq
+	req.ReceiptId = int64(orderSell.ReceiptId)
+	req.Price = int64(orderSell.Price)
+	req.QtySell = int64(orderSell.QtySell)
+	req.NonceSell = int64(orderSell.NonceSell)
+	req.QtyBuy = int64(orderBuy.QtyBuy)
+	req.NonceBuy = int64(orderBuy.NonceBuy)
+	req.AddrSell = orderSell.AddrSell
+	req.AddrBuy = orderBuy.AddrBuy
+	req.SigSell = orderSell.SigSell
+	req.SigBuy = orderBuy.SigBuy
+
+	//调用智能合约-建立连接
+	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	if err != nil {
+		fmt.Printf("admin.go grpc客户端连接失败！ err: %v\n", err)
+	}
+
+	defer conn.Close()
+
+	client := pb.NewRPCServiceClient(conn)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	rst, err := client.Trade(ctx, &req) //调用智能合约，为用户添加仓单
+
+	if err != nil {
+		fmt.Printf("admin.go 客户端调用rpc执行失败！err: %v\n", err)
+		return
+	}
+
+	fmt.Printf("rpc客户端调用成功。返回结果：%s\n", rst.RstDetails)
+	fmt.Printf("<---------------------------->\n")
 }

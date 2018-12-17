@@ -19,11 +19,15 @@
 <body>
 	<div>公钥： <span id="publicKey"></span> </div>
 	<div>用户ID： <span id="userId"></span> </div>
-	<div>用户的资金</div>
+	<div>用户的资金-智能合约</div>
 	<table class="licl-table" id="fundsTable"></table>
+	<div>拥有的仓单-智能合约</div>
+	<table class="licl-table" id="receiptTable"></table>
 
-	<div>拥有的仓单</div>
-	<table class="licl-table" id="simpleTable"></table>
+	<div>用户的资金-数据库</div>
+	<table class="licl-table" id="fundsTableDB"></table>
+	<div>拥有的仓单-数据库</div>
+	<table class="licl-table" id="receiptTableDB"></table>
 
 	<div>挂牌</div>
 	<div>
@@ -40,8 +44,16 @@
 		</form>
 			<button type="button" id="bt_listTrade">挂牌</button>
 	</div>
-
-			<button type="button" id="bt_setNonce">设置nonce</button>
+		<button type="button" id="bt_setNonce">设置nonce</button>
+	
+	<div>
+		<form>
+			挂单编号：
+			<input type="text" id="listId">
+		</form>
+		<button type="button" id="bt_cancellation">撤单</button>
+	</div>
+	
 </body>
 
 	<script src="/static/js/user.js"></script>

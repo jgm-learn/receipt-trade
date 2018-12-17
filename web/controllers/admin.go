@@ -145,7 +145,7 @@ func (this *AdminController) Trade() {
 	this.TplName = "admin.html"
 
 	var orderSell models.OrderSell
-	o.QueryTable("order_sell").Filter("id", 1).One(&orderSell)
+	o.QueryTable("order_sell").Filter("id", 5).One(&orderSell)
 	if orderSell.Id == 0 {
 		fmt.Printf("查询数据库失败，%d 订单不存在\n", 1)
 		return

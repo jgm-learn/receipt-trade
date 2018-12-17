@@ -78,16 +78,37 @@ function getReceiptList(){
 
 //摘牌
 function delist(){
+	var queryParameter = {
+		userAddr: "",
+		listId:   ""
+	}
+
+	var OrderSell = {
+		Id:			0,
+		UserId:		0,
+		ReceiptId: 	0,
+		Price:		0,
+		QtySell:	0,
+		NonceSell:	0,
+		SigSell:	"",
+		AddrSell:   ""
+	}
+
 	$("#bt_delist").on("click", function(){
 		orderBuy.UserId 	=	userId
 		orderBuy.ListId 	=	parseInt($("#listId").val())
 		orderBuy.ReceiptId	=	parseInt($("#receiptId").val())
 		orderBuy.QtyBuy 	=	parseInt($("#qtyBuy").val())
-		$.getJSON("http://222.22.64.80:8081/user/getUserNonce", {userAddr: account}, async function(data){
+		queryParameter.userAddr = 	account;
+		queryParameter.listId 	=	orderBuy.ListId;
+		$.getJSON("http://222.22.64.80:8081/user/getUserNonce", queryParameter, async function(data){
+			OrderSell 		=	data.OrderSell	
 			var nonceLast = data.Nonce;
 			console.log("nonceLast: %d", nonceLast)
 			orderBuy.NonceBuy 	= 	nonceLast + 1;
-			var orderBuyHash	= 	await web3.utils.soliditySha3(orderBuy.ReceiptId, orderBuy.QtyBuy, orderBuy.NonceBuy);
+			var orderSellHash  	=	await web3.utils.soliditySha3(OrderSell.ReceiptId,OrderSell.Price,OrderSell.QtySell, OrderSell.NonceSell,OrderSell.AddrSell)
+			console.log("orderSellHash", orderSellHash);
+			var orderBuyHash	= 	await web3.utils.soliditySha3(orderSellHash, orderBuy.QtyBuy, orderBuy.NonceBuy, account);
 			console.log("orderBuyHash", orderBuyHash);
 			orderBuy.SigBuy 	= 	await web3.eth.sign(orderBuyHash, account)
 			console.log("SigBuy", orderBuy.SigBuy);

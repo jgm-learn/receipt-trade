@@ -18,8 +18,12 @@ message TradeReq{
 	int64   Price 		=  	2;
 	int64 	QtySell 	=	3;
 	int64   NonceSell	= 	4;
-	string 	SigSell     =   5;
-	string  AddrSell   	=	6;
+	int64   QtyBuy		=	5;
+	int64 	NonceBuy    =   6;
+	string  AddrSell    =  	7;
+	string  AddrBuy		=	8;
+	string 	SigSell     =   9;
+	string 	SigBuy		=   10;
 }
 
 message Reply {

@@ -9,9 +9,13 @@ import (
 	"receipt-trade/web/models"
 )
 
+//手续费费率
+//var feeRate float64
+
 //连接数据库
 var o orm.Ormer //包的全局变量，定义Ormer接口变量
 func init() {
+	//feeRate = 0.02
 	orm.RegisterDataBase("default", "mysql", "root:root@/receipt_trade?charset=utf8", 30)
 	o = orm.NewOrm()
 }
