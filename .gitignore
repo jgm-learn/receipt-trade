@@ -1,3 +1,4 @@
 #忽略文件夹
 webpack_receipt/node_modules/.cache
 truffle_receipt/build/contracts
+web/web

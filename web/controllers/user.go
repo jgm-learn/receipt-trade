@@ -241,3 +241,20 @@ func (this *UserController) Cancellation() {
 	this.ServeJSON()
 	return
 }
+
+func (this *UserController) GetUserList() {
+	userId := this.GetString("userId")
+
+	fmt.Println(userId)
+	var lists []models.List
+	_, err := o.QueryTable("list").Filter("user_id", userId).All(&lists)
+	if err == orm.ErrNoRows {
+		fmt.Println("查询不到")
+	} else if err == orm.ErrMissPK {
+		fmt.Println("找不到主键")
+	}
+	fmt.Println(lists)
+
+	this.Data["json"] = &lists
+	this.ServeJSON()
+}

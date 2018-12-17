@@ -50,6 +50,7 @@ async function start(){
 			getFunds()
 			getReceipt()
 			getReceiptDB();
+			getUserList();
 			setNonce();
 			listTrade();
 			cancellation();
@@ -155,6 +156,19 @@ function getReceiptDB(){
 	myArray[0] = new Funds(data.TotalFunds, data.AvailableFunds, data.FrozenFunds)
 	createTable("receiptTableDB", row, data)
 	});
+}
+
+function getUserList(){
+	$.getJSON("http://222.22.64.80:8081/user/getUserList", {userId: userId}, function(data){
+		var row = [	
+					{title: "挂牌编号",	name: "ListId"},
+					{title: "仓单编号",	name: "ReceiptId"},
+					{title: "价格",		name: "Price"},
+					{title: "挂牌量",	name: "QtySell"},
+					{title: "成交量",	name: "QtyDeal"},
+					{title: "剩余量",	name: "QtyRemain"}];	
+		createTable("userListTable", row, data);
+	})
 }
 
 async function setNonce() {

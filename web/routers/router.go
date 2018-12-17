@@ -22,6 +22,7 @@ func init() {
 	beego.Router("/user/getReceipt", &controllers.UserController{}, "get:GetReceipt")
 	beego.Router("/user/listTrade", &controllers.UserController{}, "post:ListTrade")
 	beego.Router("/user/cancellation", &controllers.UserController{}, "post:Cancellation")
+	beego.Router("/user/getUserList", &controllers.UserController{}, "get:GetUserList")
 
 	beego.Router("/market", &controllers.MarketController{})
 	beego.Router("/market/getReceiptList", &controllers.MarketController{}, "get:GetReceiptList")
