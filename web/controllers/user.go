@@ -175,9 +175,17 @@ func (this *UserController) ListTrade() {
 }
 
 //撤单
+type CancelRst struct {
+	NonceSell int
+	QtyRemain int
+	Reply     string
+}
+
 func (this *UserController) Cancellation() {
-	var webReply models.WebReply
 	var list models.List
+	var orderSell models.OrderSell
+	var webReply models.WebReply
+	var rst CancelRst
 
 	userId := this.GetString("userId")
 	listId := this.GetString("listId")
@@ -236,12 +244,16 @@ func (this *UserController) Cancellation() {
 		return
 	}
 
-	webReply.Reply = "撤单成功"
-	this.Data["json"] = &webReply
+	o.QueryTable("orderSell").Filter("id", list.ListId).One(&orderSell) //获取NonceSell
+	rst.NonceSell = orderSell.NonceSell
+	rst.Reply = "撤单成功"
+	rst.QtyRemain = list.QtyRemain
+	this.Data["json"] = &rst
 	this.ServeJSON()
 	return
 }
 
+//获取我的挂单
 func (this *UserController) GetUserList() {
 	userId := this.GetString("userId")
 

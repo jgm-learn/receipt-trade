@@ -218,7 +218,10 @@ function listTrade(){
 function cancellation(){
 	$("#bt_cancellation").on('click', function(){
 		var listId = parseInt($("#listId").val());
-		$.post("http://222.22.64.80:8081/user/cancellation", { userId: userId, listId: listId}, function(data){alert(data.Reply);} )
+		$.post("http://222.22.64.80:8081/user/cancellation", { userId: userId, listId: listId}, async function(data){
+			alert(data.Reply);
+			await instance.cancellation(data.NonceSell, data.QtyRemain, {from: account, gasLimit: 9000000})
+		} )
 	})
 }
 

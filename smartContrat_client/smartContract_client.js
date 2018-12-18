@@ -27,7 +27,6 @@ var accounts = web3.eth.accounts;	//获取管理员以太坊地址
 async function main() {
 	console.log(accounts[0])
 	instance = await ReceiptTrade.deployed();	//创建合约实例
-	await instance.setNonce(1, {from:accounts[0], gas:9000000});
 
 	var PROTO_PATH = "/home/jgm/goApp/src/receipt-trade/web/controllers/grpcPB/grpcPB.proto"
 	var packageDefinition = protoLoader.loadSync(
@@ -122,15 +121,12 @@ async function trade(call, callback) {
 	rs[2]	=	sigBuy.slice(0, 66);
 	rs[3]	=	'0x' + sigBuy.slice(66, 130);
 	v[1]	=  	await web3.toDecimal('0x' + sigBuy.slice(130,132));
-	console.log(v);
 
-	console.log(call.request);
+	//console.log(call.request);
 	await instance.trade(tradeValues, tradeAddresses, v, rs, {from: accounts[0], gas: 9000000});
 
 
 	var event = await instance.getErrCode();
-
-	//console.log(event);
 
 	event.watch(function(err, rst){
 		if (!err){

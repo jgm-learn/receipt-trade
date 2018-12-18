@@ -63,6 +63,7 @@ func (this *MarketController) Delist() {
 	errs := oTX.Begin()
 	if errs != nil {
 		fmt.Println("o.Begin ", errs)
+		oTX.Rollback()
 		webReply.Reply = "摘牌失败：o.Begin()出错 "
 		this.Data["json"] = &webReply
 		this.ServeJSON()
@@ -71,6 +72,14 @@ func (this *MarketController) Delist() {
 
 	//查询挂单的具体信息,添加排他锁
 	err := oTX.Raw("select * from list where list_id = ? for update", orderBuy.ListId).QueryRow(&list)
+	if err == orm.ErrNoRows {
+		fmt.Printf("%d号挂单不存在\n", orderBuy.ListId)
+		oTX.Rollback()
+		webReply.Reply = "摘牌失败：该挂单不存在"
+		this.Data["json"] = &webReply
+		this.ServeJSON()
+		return
+	}
 	if err != nil {
 		fmt.Println("阻塞中，正在排队", err)
 		oTX.Rollback()
