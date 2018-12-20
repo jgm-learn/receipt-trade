@@ -81,6 +81,19 @@ type WebReply struct {
 	Reply string
 }
 
+type TradeReq struct {
+	ReceiptId int
+	Price     int
+	QtySell   int
+	NonceSell int
+	QtyBuy    int
+	NonceBuy  int
+	AddrSell  string
+	AddrBuy   string
+	SigSell   string
+	SigBuy    string
+}
+
 var o orm.Ormer //定义Ormer接口变量
 
 func init() {

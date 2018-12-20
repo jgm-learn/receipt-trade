@@ -71,6 +71,7 @@ contract ReceiptTrade {
 	event getHash(bytes32 hash);
 	event getAddrSell(address addr);
 	event getNonceSell(uint256 nonceSell);
+	event getFundsEv(uint256 totalFunds);
 
 	function trade(uint256[6] tradeValues, address[2] tradeAddress, uint8[2] v, bytes32[4] rs){
 		/*
@@ -120,6 +121,7 @@ contract ReceiptTrade {
 	   userFunds[tradeAddress[1]] -= payment;
 	   userFunds[tradeAddress[0]] += payment;
 
+	   getFundsEv(userFunds[tradeAddress[1]]);
 	   getErrCode(0);
 	}
 }

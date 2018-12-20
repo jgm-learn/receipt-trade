@@ -6,11 +6,12 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	pb "receipt-trade/web/controllers/grpcPB"
+	"github.com/nsqio/go-nsq"
+	//"golang.org/x/net/context"
+	//"google.golang.org/grpc"
+	//pb "receipt-trade/web/controllers/grpcPB"
 	"receipt-trade/web/models"
-	"time"
+	//"time"
 )
 
 type MarketController struct {
@@ -193,6 +194,7 @@ func (this *MarketController) Delist() {
 }
 
 //调用智能合约处理摘牌交易
+/*
 func Trade(orderBuy models.OrderBuy, listId int) {
 	var orderSell models.OrderSell
 
@@ -237,4 +239,42 @@ func Trade(orderBuy models.OrderBuy, listId int) {
 
 	fmt.Printf("rpc客户端调用成功。返回结果：%s\n", rst.RstDetails)
 	fmt.Printf("<---------------------------->\n")
+}
+*/
+func Trade(orderBuy models.OrderBuy, listId int) {
+	var orderSell models.OrderSell
+
+	o.QueryTable("order_sell").Filter("id", listId).One(&orderSell)
+	if orderSell.Id == 0 {
+		fmt.Printf("查询数据库失败，%d 订单不存在\n", 1)
+		return
+	}
+
+	//构建消息对象
+	var req models.TradeReq
+	req.ReceiptId = orderSell.ReceiptId
+	req.Price = orderSell.Price
+	req.QtySell = orderSell.QtySell
+	req.NonceSell = orderSell.NonceSell
+	req.QtyBuy = orderBuy.QtyBuy
+	req.NonceBuy = orderBuy.NonceBuy
+	req.AddrSell = orderSell.AddrSell
+	req.AddrBuy = orderBuy.AddrBuy
+	req.SigSell = orderSell.SigSell
+	req.SigBuy = orderBuy.SigBuy
+
+	data, err := json.Marshal(req)
+	producer, err := nsq.NewProducer("127.0.0.1:4150", nsq.NewConfig())
+	if err != nil {
+		fmt.Println("NewProducer", err)
+		panic(err)
+	}
+
+	for i := 0; i < 1000; i++ {
+
+		if err := producer.Publish("le1", data); err != nil {
+			fmt.Println("Publish", err)
+			panic(err)
+		}
+	}
 }
